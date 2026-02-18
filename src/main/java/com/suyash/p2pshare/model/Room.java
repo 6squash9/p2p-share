@@ -1,7 +1,9 @@
 package com.suyash.p2pshare.model;
 
+import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -21,5 +23,15 @@ public class Room {
    }
    public Set<WebSocketSession> getAllSessions(){
        return sessions;
+   }
+
+   public void broadcastMessage(WebSocketSession sender, TextMessage message) throws IOException {
+//       send to everyone in this room EXCEPT the sender
+        for(WebSocketSession x : sessions){
+            // skip the sender
+            if(x != sender){
+                x.sendMessage(message);
+            }
+        }
    }
 }
