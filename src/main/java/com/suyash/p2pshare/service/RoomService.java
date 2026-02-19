@@ -2,6 +2,7 @@ package com.suyash.p2pshare.service;
 
 import com.suyash.p2pshare.model.Room;
 import com.suyash.p2pshare.model.JoinResult;
+import org.springframework.stereotype.Service;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -9,10 +10,12 @@ import org.springframework.web.socket.WebSocketSession;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
+@Service
 public class RoomService {
     //storage to store all the rooms keyId by roomId
-    Map<String, Room> rooms = new HashMap<>();
+    Map<String, Room> rooms = new ConcurrentHashMap<>(); //thread safe
 
     public JoinResult joinRoom(String roomId, WebSocketSession session){
         if(!rooms.containsKey(roomId)){
@@ -28,7 +31,7 @@ public class RoomService {
         else{
             //check if room has space to enter
             if(rooms.get(roomId).getAllSessions().size() >= 2 ){
-                System.out.println("Run already full");
+                System.out.println("Room already full");
                 return JoinResult.ROOM_FULL;
             }
             else {

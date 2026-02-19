@@ -6,6 +6,7 @@ import org.springframework.web.socket.WebSocketSession;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Room {
    private String roomId;
@@ -13,7 +14,7 @@ public class Room {
 
    public Room(String roomId){
        this.roomId = roomId;
-       this.sessions = new HashSet<>();
+       this.sessions = ConcurrentHashMap.newKeySet();
    }
    public void joinRoom(WebSocketSession session){
        sessions.add(session);
@@ -29,7 +30,7 @@ public class Room {
 //       send to everyone in this room EXCEPT the sender
         for(WebSocketSession x : sessions){
             // skip the sender
-            if(x != sender){
+            if(x.isOpen() && x != sender){
                 x.sendMessage(message);
             }
         }

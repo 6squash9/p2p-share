@@ -10,9 +10,13 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
 @Configuration
 @EnableWebSocket
 public class WebSocketConfig implements WebSocketConfigurer {
+    private final SignalHandler signalHandler;
+    public WebSocketConfig(SignalHandler signalHandler){
+        this.signalHandler = signalHandler;
+    }
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
         // "/signal" a WebSocket endpoint
-        registry.addHandler(new SignalHandler(new RoomService()),"/signal").setAllowedOrigins("*");
+        registry.addHandler(signalHandler,"/signal").setAllowedOrigins("http://localhost:3000");
     }
 }
