@@ -42,7 +42,7 @@ public class RoomService {
     public void disconnect(String roomId , WebSocketSession session){
         //if any browser disconnects
         Room room = rooms.get(roomId);
-        if(!session.isOpen() && room != null) {
+        if(room != null) {
             //remove the session from the room
                room.leaveRoom(session);
             //if room occupancy is 0 then delete the room
