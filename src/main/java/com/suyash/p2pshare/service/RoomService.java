@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class RoomService {
-    //storage to store all the rooms
+    //storage to store all the rooms keyId by roomId
     Map<String, Room> rooms = new HashMap<>();
 
     public JoinResult joinRoom(String roomId, WebSocketSession session){
