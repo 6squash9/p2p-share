@@ -15,28 +15,22 @@ import java.util.concurrent.ConcurrentHashMap;
 @Service
 public class RoomService {
     //storage to store all the rooms keyId by roomId
-    Map<String, Room> rooms = new ConcurrentHashMap<>(); //thread safe
+    private final Map<String, Room> rooms = new ConcurrentHashMap<>(); //thread safe
 
     public JoinResult joinRoom(String roomId, WebSocketSession session){
-        if(!rooms.containsKey(roomId)){
-            System.out.println("Room not found !");
-            //lets create the room
-            Room room = new Room(roomId);
-            rooms.put(roomId,room);
-            System.out.println("new Room created");
-            //now join the room
-            room.joinRoom(session);
-            return JoinResult.SUCCESS_INITIATOR;
-        }
-        else{
-            //check if room has space to enter
-            if(rooms.get(roomId).getAllSessions().size() >= 2 ){
+        Room room = rooms.computeIfAbsent(roomId, id->new Room(id)); // atomic check-and-create to prevent race conditions.
+        synchronized (room) {
+            int size = room.getAllSessions().size();
+            if (size >= 2) {
                 System.out.println("Room already full");
                 return JoinResult.ROOM_FULL;
-            }
-            else {
-                // join the room
-                rooms.get(roomId).joinRoom(session);
+            } else if (size == 0) {
+                room.joinRoom(session);
+                System.out.println("New Room Created, joined as initiator");
+                return JoinResult.SUCCESS_INITIATOR;
+            } else {
+                room.joinRoom(session);
+                System.out.println("Joined existing room as responder");
                 return JoinResult.SUCCESS_RESPONDER;
             }
         }
@@ -44,21 +38,16 @@ public class RoomService {
 
     public void disconnect(String roomId , WebSocketSession session){
         //if any browser disconnects
-        Room room = rooms.get(roomId);
-        if(room != null) {
-            //remove the session from the room
-               room.leaveRoom(session);
-            //if room occupancy is 0 then delete the room
-            if (room.getAllSessions().size() == 0) {
-                rooms.remove(roomId);
-            }
-        }
+        rooms.computeIfPresent(roomId, (id, room) -> {
+            room.leaveRoom(session);
+            return room.getAllSessions().isEmpty() ? null : room;
+        });
     }
 
    public void sendMessage(String roomId , WebSocketSession sender, TextMessage message) throws IOException {
-        Room room = rooms.get(roomId);
-        if(room != null && sender.isOpen()){
-            room.broadcastMessage(sender,message);
-        }
+       Room room = rooms.get(roomId);
+       if (room != null && sender.isOpen()) {
+           room.broadcastMessage(sender, message);
+       }
    }
 }

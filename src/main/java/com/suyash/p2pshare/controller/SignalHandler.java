@@ -20,8 +20,8 @@ public class SignalHandler extends TextWebSocketHandler {
     //ObjectMapper as static final field instead of creating per message
     private static final ObjectMapper mapper = new ObjectMapper();
     // when a session joins a room, we store it here
-    Map<WebSocketSession, String> sessionToRoom = new ConcurrentHashMap<>(); //if they disconnect abruptly, we can still find their roomId
-    RoomService roomService;
+   private final Map<WebSocketSession, String> sessionToRoom = new ConcurrentHashMap<>(); //if they disconnect abruptly, we can still find their roomId
+    private final RoomService roomService;
 
     public SignalHandler(RoomService roomService){
         this.roomService = roomService;
@@ -44,18 +44,16 @@ public class SignalHandler extends TextWebSocketHandler {
 
         //routing logic
         if(type.equals("join")){
-           JoinResult result = roomService.joinRoom(roomId,session);
-           if(result == JoinResult.SUCCESS_INITIATOR){
-               session.sendMessage(new TextMessage("{\"type\":\"role\",\"role\":\"initiator\"}"));
-           sessionToRoom.put(session,roomId);
-           }
-           else if(result == JoinResult.SUCCESS_RESPONDER){
-               session.sendMessage(new TextMessage("{\"type\":\"role\",\"role\":\"responder\"}"));
-               sessionToRoom.put(session,roomId);
-           }
-           else if(result == JoinResult.ROOM_FULL){
-               session.sendMessage(new TextMessage("{\"type\":\"error\",\"error\":\"room_full\"}"));
-           }
+       JoinResult result = roomService.joinRoom(roomId, session);
+       if (result == JoinResult.SUCCESS_INITIATOR) {
+           session.sendMessage(new TextMessage(mapper.writeValueAsString(Map.of("type", "role", "role", "initiator"))));
+           sessionToRoom.put(session, roomId);
+       } else if (result == JoinResult.SUCCESS_RESPONDER) {
+           session.sendMessage(new TextMessage(mapper.writeValueAsString(Map.of("type", "role", "role", "responder"))));
+           sessionToRoom.put(session, roomId);
+       } else if (result == JoinResult.ROOM_FULL) {
+           session.sendMessage(new TextMessage(mapper.writeValueAsString(Map.of("type", "error", "error", "room_full"))));
+       }
         }
         else if(type.equals("leave")){
             notifyPeer(roomId,session);//notify first
