@@ -4,6 +4,7 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -25,7 +26,7 @@ public class Room {
     }
 
     public Set<WebSocketSession> getAllSessions() {
-        return sessions;
+        return Collections.unmodifiableSet(sessions);
     }
 
     public void broadcastMessage(WebSocketSession sender, TextMessage message) throws IOException {
