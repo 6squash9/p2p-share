@@ -52,11 +52,12 @@ public class SignalHandler extends TextWebSocketHandler {
             } else if (result == JoinResult.SUCCESS_RESPONDER) {
                 session.sendMessage(new TextMessage(mapper.writeValueAsString(Map.of("type", "role", "role", "responder"))));
                 sessionToRoom.put(session, roomId);
+                notifyPeer(roomId, session, new TextMessage(mapper.writeValueAsString(Map.of("type", "peer_joined")))); //notify initiator to "start the offer"
             } else if (result == JoinResult.ROOM_FULL) {
                 session.sendMessage(new TextMessage(mapper.writeValueAsString(Map.of("type", "error", "error", "room_full"))));
             }
         } else if (type.equals("leave")) {
-            notifyPeer(roomId, session);//notify first
+            notifyPeer(roomId, session, new TextMessage(mapper.writeValueAsString(Map.of("type", "peer_left"))));//notify first
             roomService.disconnect(roomId, session);//then disconnect
             sessionToRoom.remove(session);
         } else {
@@ -71,14 +72,15 @@ public class SignalHandler extends TextWebSocketHandler {
         //afterConnectionClosed only gives us the session, not the roomId
         String roomId = sessionToRoom.get(session);
         if (roomId != null) {
-            notifyPeer(roomId, session); //notify first
+            notifyPeer(roomId, session, new TextMessage(mapper.writeValueAsString(Map.of("type", "peer_left")))); //notify first
             roomService.disconnect(roomId, session); //then disconnect
             sessionToRoom.remove(session);
         }
+        System.out.println("Browser disconnected! Session ID: " + session.getId());
     }
 
     //notify the peer about disconnect
-    private void notifyPeer(String roomId, WebSocketSession session) throws IOException {
-        roomService.sendMessage(roomId, session, new TextMessage("{\"type\":\"peer_left\"}"));
+    private void notifyPeer(String roomId, WebSocketSession session, TextMessage message) throws IOException {
+        roomService.sendMessage(roomId, session, message);
     }
 }

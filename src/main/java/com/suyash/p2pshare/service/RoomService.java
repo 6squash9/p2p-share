@@ -45,7 +45,7 @@ public class RoomService {
 
     public void sendMessage(String roomId, WebSocketSession sender, TextMessage message) throws IOException {
         Room room = rooms.get(roomId);
-        if (room != null && sender.isOpen()) {
+        if (room != null) {
             room.broadcastMessage(sender, message);
         }
     }
