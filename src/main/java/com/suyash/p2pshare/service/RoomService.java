@@ -13,11 +13,12 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class RoomService {
-    //storage to store all the rooms keyId by roomId
-    private final Map<String, Room> rooms = new ConcurrentHashMap<>(); //thread safe
+    // storage to store all the rooms keyId by roomId
+    private final Map<String, Room> rooms = new ConcurrentHashMap<>(); // thread safe
 
     public JoinResult joinRoom(String roomId, WebSocketSession session) {
-        Room room = rooms.computeIfAbsent(roomId, id -> new Room(id)); // atomic check-and-create to prevent race conditions.
+        Room room = rooms.computeIfAbsent(roomId, id -> new Room(id)); // atomic check-and-create to prevent race
+                                                                       // conditions.
         synchronized (room) {
             int size = room.getAllSessions().size();
             if (size >= 2) {
@@ -36,7 +37,7 @@ public class RoomService {
     }
 
     public void disconnect(String roomId, WebSocketSession session) {
-        //if any browser disconnects
+        // if any browser disconnects
         rooms.computeIfPresent(roomId, (id, room) -> {
             room.leaveRoom(session);
             return room.getAllSessions().isEmpty() ? null : room;
@@ -50,7 +51,9 @@ public class RoomService {
         }
     }
 
-    //    room is pre-created via REST before anyone joins via WebSocket. previously computeIfAbsent was doing the room creation lazily on first join — now we're just doing it explicitly upfront.
+    // room is pre-created via REST before anyone joins via WebSocket. previously
+    // computeIfAbsent was doing the room creation lazily on first join — now we're
+    // just doing it explicitly upfront.
     public String createRoom() {
         String roomId = UUID.randomUUID().toString();
         rooms.put(roomId, new Room(roomId));

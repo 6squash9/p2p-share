@@ -30,7 +30,7 @@ public class Room {
     }
 
     public void broadcastMessage(WebSocketSession sender, TextMessage message) throws IOException {
-//       send to everyone in this room EXCEPT the sender
+        // send to everyone in this room EXCEPT the sender
         for (WebSocketSession x : sessions) {
             // skip the sender
             if (x.isOpen() && x != sender) {
