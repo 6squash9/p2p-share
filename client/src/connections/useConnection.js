@@ -90,6 +90,12 @@ function useConnection(roomId) {
             }
         }
 
+        // cleanup on unmount , user closes the tab
+        return () => {
+            ws.close(); // close websocket connection
+            pc.close(); // close webrtc connection
+        }
+
     }, []) //run once
 
     return {role, connectionState};
