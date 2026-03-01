@@ -74,6 +74,9 @@ function useConnection(roomId) {
                 }
                 handleIce(); //IIFE
             }
+            if (msg.type === "peer_left") {
+                setConnectionState("failed")
+            }
         }
         //events browser fires automatically, not triggered by ws messages from the server
         //browser automatically starts gathering ICE candidates whenever setLocalDescription or setRemoteDescription is called
@@ -98,7 +101,7 @@ function useConnection(roomId) {
 
     }, []) //run once
 
-    return {role, connectionState};
+    return {role, connectionState, channelRef};
 
 }
 
