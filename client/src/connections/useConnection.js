@@ -6,6 +6,7 @@ function useConnection(roomId) {
     const [role, setRole] = useState(null);
     const [connectionState, setConnectionState] = useState("idle");
     const roleRef = useRef(null);
+    const channelRef = useRef(null);
 
     // websocket connection the moment page loads
     useEffect(() => {
@@ -22,7 +23,7 @@ function useConnection(roomId) {
             //backend expects a type and roomId
             ws.send(JSON.stringify({type: "join", roomId})); //convert to string before sending
         }
-        // runs when server sends a message
+        // runs automatically when server sends a message
         ws.onmessage = (event) => {
             const msg = JSON.parse(event.data);
             console.log("Message from server: ", msg);
@@ -32,8 +33,14 @@ function useConnection(roomId) {
             }
             // when other peer joins server will respond with 'peer_joined'
             if (msg.type === "peer_joined") {
-                //initiator will do the offer
+                //now initiator will do the offer
                 if (roleRef.current === "initiator") {
+                    //initiator side creates data channel before the offer and saves it
+                    channelRef.current = pc.createDataChannel("fileTransfer")
+                    // event fires when the data channel is successfully established
+                    channelRef.current.onopen = () => {
+                        setConnectionState("connected")
+                    }
                     // creating a function because await requires async but onmessage is not an async function , so cant use await directly inside of it
                     const handlePeerJoined = async () => {
                         const offer = await pc.createOffer(); //returns sdp
@@ -68,10 +75,18 @@ function useConnection(roomId) {
                 handleIce(); //IIFE
             }
         }
+        //events browser fires automatically, not triggered by ws messages from the server
         //browser automatically starts gathering ICE candidates whenever setLocalDescription or setRemoteDescription is called
         pc.onicecandidate = (event) => {
             if (event.candidate) {
                 ws.send(JSON.stringify({type: "ice", iceCandidate: event.candidate, roomId}));
+            }
+        }
+        // responder side, fires when browser receives a DataChannel from the other peer
+        pc.ondatachannel = (event) => {
+            channelRef.current = event.channel;
+            channelRef.current.onopen = () => {
+                setConnectionState("connected")
             }
         }
 
