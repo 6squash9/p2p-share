@@ -1,5 +1,4 @@
 function useSender(channelRef) {
-
     //convert file to array buffer
     const sendFile = async (file) => {
         const CHUNK_SIZE = 64 * 1024; //64 KB
