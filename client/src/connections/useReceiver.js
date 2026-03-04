@@ -1,10 +1,11 @@
-import {useEffect, useRef} from "react";
+import {useEffect, useRef, useState} from "react";
 
 function useReceiver(channelRef) {
 
     const fileMetaRef = useRef(null); //reference for the file meta
     const pendingChunkRef = useRef(null); //reference for the chunk data
     const chunkRef = useRef([]); //reference for the array
+    const [progress, setProgress] = useState();
 
     //wrapping the entire channelRef.onmessage in useEffect because  If channelRef.current is null when the component renders, accessing .onmessage on it will throw a TypeError.
     useEffect(() => {
@@ -19,6 +20,13 @@ function useReceiver(channelRef) {
             if (event.data instanceof ArrayBuffer) {
                 //true if binary
                 chunkRef.current.push(event.data)
+                //calculate total percentage done
+                const chunksReceived = chunkRef.current.length;
+                const totalChunks = fileMetaRef.current.totalChunks;
+                if (totalChunks > 0) {
+                    const percentage = chunksReceived / totalChunks * 100;
+                    setProgress(percentage);
+                }
             }
             // or it is a json string
             else {
@@ -45,7 +53,7 @@ function useReceiver(channelRef) {
         }
     }, []); // [] is safe because useReceiver only mounts when connectionState === "connected"
     // meaning channelRef.current is guaranteed to be set at this point
-    return {fileMetaRef, chunkRef}
+    return {progress}
 }
 
 export default useReceiver
