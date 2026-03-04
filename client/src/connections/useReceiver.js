@@ -33,7 +33,10 @@ function useReceiver(channelRef) {
                 //convert json string to js object
                 const msg = JSON.parse(event.data) //event.data = the actual data
                 if (msg.type === "file_meta") {
+                    //a new file is coming
                     fileMetaRef.current = msg; //save the file meta for now , TODO:checking storage
+                    chunkRef.current = []; //empty the array
+                    setProgress(0); //reset the progress
                 }
                 if (msg.type === "chunk") {
                     pendingChunkRef.current = msg; // TODO:data corruption
@@ -48,6 +51,7 @@ function useReceiver(channelRef) {
                     a.href = url
                     a.download = fileMetaRef.current.name //set file name for the download
                     a.click(); //triggers download
+                    URL.revokeObjectURL(url) // revokes the temporary download URL
                 }
             }
         }
