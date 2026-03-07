@@ -9,4 +9,5 @@ public class SignalMessage {
     // the server only needs to understand what it has to ACT on so we are using type and roomId
     private String type;
     private String roomId;
+    private String name;
 }

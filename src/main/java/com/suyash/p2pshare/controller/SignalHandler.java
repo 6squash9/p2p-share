@@ -2,6 +2,7 @@ package com.suyash.p2pshare.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.suyash.p2pshare.model.JoinResult;
+import com.suyash.p2pshare.model.Room;
 import com.suyash.p2pshare.model.SignalMessage;
 import com.suyash.p2pshare.service.RoomService;
 import org.jspecify.annotations.NonNull;
@@ -21,6 +22,7 @@ public class SignalHandler extends TextWebSocketHandler {
     private static final ObjectMapper mapper = new ObjectMapper();
     // when a session joins a room, we store it here
     private final Map<WebSocketSession, String> sessionToRoom = new ConcurrentHashMap<>(); //if they disconnect abruptly, we can still find their roomId
+    private final Map<WebSocketSession, String> sessionToName = new ConcurrentHashMap<>();
     private final RoomService roomService;
 
     public SignalHandler(RoomService roomService) {
@@ -42,17 +44,29 @@ public class SignalHandler extends TextWebSocketHandler {
         SignalMessage msg = mapper.readValue(json, SignalMessage.class); //target class to deserialize json into object
         String type = msg.getType();
         String roomId = msg.getRoomId();
-
+        String name = msg.getName();
         //routing logic
         if (type.equals("join")) {
             JoinResult result = roomService.joinRoom(roomId, session);
             if (result == JoinResult.SUCCESS_INITIATOR) {
                 session.sendMessage(new TextMessage(mapper.writeValueAsString(Map.of("type", "role", "role", "initiator"))));
                 sessionToRoom.put(session, roomId);
+                sessionToName.put(session, name);
             } else if (result == JoinResult.SUCCESS_RESPONDER) {
                 session.sendMessage(new TextMessage(mapper.writeValueAsString(Map.of("type", "role", "role", "responder"))));
                 sessionToRoom.put(session, roomId);
-                notifyPeer(roomId, session, new TextMessage(mapper.writeValueAsString(Map.of("type", "peer_joined")))); //notify initiator to "start the offer"
+                //find peer A session and get their name
+                Room room = roomService.getRoom(roomId);
+                for (WebSocketSession s : room.getAllSessions()) {
+                    //session = peer B session df
+                    if (s != session) {
+                        String peerAName = sessionToName.get(s);
+                        // notify peer B about peer A's name
+                        session.sendMessage(new TextMessage(mapper.writeValueAsString(Map.of("type", "peer_joined", "name", peerAName))));
+                        // notify peer A about peer B's name and start the offer
+                        notifyPeer(roomId, session, new TextMessage(mapper.writeValueAsString(Map.of("type", "peer_joined", "name", name))));
+                    }
+                }
             } else if (result == JoinResult.ROOM_FULL) {
                 session.sendMessage(new TextMessage(mapper.writeValueAsString(Map.of("type", "error", "error", "room_full"))));
             }

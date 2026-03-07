@@ -18,7 +18,7 @@ public class RoomService {
 
     public JoinResult joinRoom(String roomId, WebSocketSession session) {
         Room room = rooms.computeIfAbsent(roomId, id -> new Room(id)); // atomic check-and-create to prevent race
-                                                                       // conditions.
+        // conditions.
         synchronized (room) {
             int size = room.getAllSessions().size();
             if (size >= 2) {
@@ -64,5 +64,9 @@ public class RoomService {
     public boolean roomExists(String roomId) {
         System.out.println("Checking room: " + roomId + " | exists: " + rooms.containsKey(roomId));
         return rooms.containsKey(roomId);
+    }
+
+    public Room getRoom(String roomId) {
+        return rooms.get(roomId);
     }
 }

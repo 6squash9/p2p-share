@@ -10,7 +10,8 @@ function RoomPage() {
     return (
         <>
             {/*conditional rendering*/}
-            {connectionState === "connected" ? <div>Connected</div> : <div>not Connected</div>}
+            {connectionState === "connected" ? <div style={{color: "green"}}>Connected</div> :
+                <div style={{color: "red"}}>not Connected</div>}
             <div>{roomId}</div>
             <button onClick={copyLink}>Copy the link</button>
             <div></div>
