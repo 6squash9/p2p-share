@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "*")
 // Allow requests from frontend (different origin) to avoid browser CORS blocking
 @RestController
 @RequestMapping("/rooms")
