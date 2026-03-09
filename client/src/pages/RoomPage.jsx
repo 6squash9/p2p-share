@@ -17,6 +17,7 @@ function RoomPage() {
             <button onClick={copyLink}>Copy the link</button>
             <div>You are: {name}</div>
             {peerName && <div>{peerName} has joined!</div>}
+            <FileTransfer channelRef={channelRef}></FileTransfer>
         </>
     )
 }
