@@ -1,4 +1,4 @@
-function useSender(channelRef) {
+function useSender(channelRef, setSenderProgress) {
     //convert file to array buffer
     const sendFile = async (file) => {
         const CHUNK_SIZE = 64 * 1024; //64 KB
@@ -38,12 +38,18 @@ function useSender(channelRef) {
             )
             //send file
             channelRef.current.send(slice)
+
+            //calculate progress sent
+            const totalChunks = Math.ceil(arrayBuffer.byteLength / CHUNK_SIZE)
+            const percentage = ((i + 1) / totalChunks) * 100
+            setSenderProgress(percentage);
         }
         //notify the receiver about all chunks are sent
         channelRef.current.send(JSON.stringify({
             type: "transfer_complete",
             fileId: file.name
         }))
+        // setSenderProgress(0);
     }
     return {sendFile} //handing the function to the component
 }

@@ -5,7 +5,7 @@ function useReceiver(channelRef) {
     const fileMetaRef = useRef(null); //reference for the file meta
     const pendingChunkRef = useRef(null); //reference for the chunk data
     const chunkRef = useRef([]); //reference for the array
-    const [progress, setProgress] = useState();
+    const [progress, setProgress] = useState(0);
 
     //wrapping the entire channelRef.onmessage in useEffect because  If channelRef.current is null when the component renders, accessing .onmessage on it will throw a TypeError.
     useEffect(() => {
@@ -52,6 +52,7 @@ function useReceiver(channelRef) {
                     a.download = fileMetaRef.current.name //set file name for the download
                     a.click(); //triggers download
                     URL.revokeObjectURL(url) // revokes the temporary download URL
+                    // setProgress(0)
                 }
             }
         }
