@@ -7,7 +7,7 @@ function FileTransfer({channelRef}) {
     const [sendProgress, setSenderProgress] = useState(0); //0-100
 
     const {sendFile} = useSender(channelRef, setSenderProgress); //useSender returns an object
-    const {progress} = useReceiver(channelRef)
+    const {progress, receivedFiles} = useReceiver(channelRef)
 
     const share = () => {
         sendFile(file)
@@ -19,6 +19,11 @@ function FileTransfer({channelRef}) {
             <button onClick={share} disabled={!file}>Send</button>
             <div>Progress during Sending: {sendProgress}%</div>
             <div>Progress during Receiving : {progress}%</div>
+            {receivedFiles.map((file, index) => (
+                <div key={index}>
+                    <a href={file.url} download={file.name}>{file.name}</a>
+                </div>
+            ))}
         </>
     )
 

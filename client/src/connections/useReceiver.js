@@ -6,6 +6,9 @@ function useReceiver(channelRef) {
     const pendingChunkRef = useRef(null); //reference for the chunk data
     const chunkRef = useRef([]); //reference for the array
     const [progress, setProgress] = useState(0);
+    // const [downloadUrl, setDownloadUrl] = useState(null);
+    // const [fileName, setFileName] = useState(null);
+    const [receivedFiles, setReceivedFiles] = useState([])
 
     //wrapping the entire channelRef.onmessage in useEffect because  If channelRef.current is null when the component renders, accessing .onmessage on it will throw a TypeError.
     useEffect(() => {
@@ -51,14 +54,17 @@ function useReceiver(channelRef) {
                     a.href = url
                     a.download = fileMetaRef.current.name //set file name for the download
                     a.click(); //triggers download
-                    URL.revokeObjectURL(url) // revokes the temporary download URL
+                    // URL.revokeObjectURL(url) // revokes the temporary download URL
                     // setProgress(0)
+                    // setDownloadUrl(url)
+                    // setFileName(fileMetaRef.current.name)
+                    setReceivedFiles(prevState => [...prevState, {url: url, name: fileMetaRef.current.name}])
                 }
             }
         }
     }, []); // [] is safe because useReceiver only mounts when connectionState === "connected"
     // meaning channelRef.current is guaranteed to be set at this point
-    return {progress}
+    return {progress, receivedFiles}
 }
 
 export default useReceiver
