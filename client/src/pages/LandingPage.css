@@ -25,8 +25,7 @@
     border-radius: 999px;
     padding: 12px 24px;
     border: 1px solid rgba(255, 255, 255, 0.08);
-
-
+    height: 60px;
 }
 
 .logo {
@@ -59,4 +58,81 @@
     cursor: pointer;
     font-family: 'Satoshi', sans-serif;
     font-size: 15px;
+}
+
+.hero {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding-top: 60px;
+    padding-bottom: 24px;
+    text-align: center;
+    gap: 32px;
+}
+
+.hero h1 {
+    font-size: 110px;
+    font-weight: 500;
+    line-height: 1.1;
+    max-width: 1000px;
+}
+
+.hero h1 .logo {
+    font-family: 'Instrument Serif', serif;
+    font-weight: 400;
+    font-size: 110px;
+}
+
+.hero h1 .logo span {
+    font-family: 'Instrument Serif', serif;
+    font-weight: 400;
+    font-size: 110px;
+    color: rgba(252, 252, 250, 0.5);
+}
+
+.hero p {
+    font-size: 28px;
+    color: rgb(153, 153, 153);
+    max-width: 1200px;
+    line-height: 1.6;
+    text-align: center;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 24px;
+}
+
+.btn-primary {
+    background-color: #6214D9;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-family: 'Satoshi', sans-serif;
+    font-size: 21px;
+    height: 67px;
+    width: 195px;
+    text-align: center;
+}
+
+.btn-secondary {
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-family: 'Satoshi', sans-serif;
+    font-size: 21px;
+    height: 67px;
+    width: 195px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    background-color: rgba(13, 13, 13, 0.5);
+    border-radius: 999px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 10px -2px, rgba(0, 0, 0, 0.1) 0px 2px 2px -1px, rgba(255, 255, 255, 0.08) 0px 0px 0px 1px;
+    opacity: 1;
+    will-change: auto;
 }
