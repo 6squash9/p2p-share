@@ -1,6 +1,7 @@
 import './LandingPage.css'
 import { useEffect, useRef } from 'react'
 import Lenis from 'lenis'
+import { Lock, Zap, UserX, FileCheck, Heart, Infinity } from 'lucide-react'
 
 function LandingPage() {
     const videoTextRef = useRef(null)
@@ -123,6 +124,53 @@ function LandingPage() {
                                 <h3>Transfer</h3>
                                 <p>Stream files browser-to-browser. Your data never touches a server, ensuring absolute privacy and maximum speed.</p>
                             </div>
+                        </div>
+                        <button className='process-button'>Send a File</button>
+                    </div>
+                </div>
+            </section >
+
+            {/* Features */}
+            <section className='features'>
+                <div className='features-border'>
+                    <div className='process-inner'>
+                        <div className='feature-text'>
+                            <div className='section-badge'>Features</div>
+                            <h2>Reasons you will <span className='serif-accent'>love</span> us</h2>
+                            <p className='section-subtitle'>Send files the way it should've always worked.</p>
+                        </div>
+                        <div className='feature-boxes'>
+                            <div className='feature-box'>
+                                <Lock size={32} strokeWidth={1.5} />
+                                <h3>End-to-End Encrypted</h3>
+                                <p>DTLS encryption via WebRTC. Nobody can intercept your files.</p>
+                            </div>
+                            <div className='feature-box'>
+                                <Zap size={32} strokeWidth={1.5} />
+                                <h3>Lightning Fast</h3>
+                                <p>Direct browser-to-browser transfer. No server bottleneck slowing you down.</p>
+                            </div>
+                            <div className='feature-box'>
+                                <UserX size={32} strokeWidth={1.5} />
+                                <h3>No Signup Required</h3>
+                                <p>Just create a room and go. No accounts, no tracking, no BS.</p>
+                            </div>
+                            <div className='feature-box'>
+                                <Infinity size={32} strokeWidth={1.5} />
+                                <h3>No File Size Limits</h3>
+                                <p>Send files of any size. No restrictions whatsoever.</p>
+                            </div>
+                               <div className='feature-box'>
+                                <FileCheck size={32} strokeWidth={1.5} />
+                                <h3>Any File Type</h3>
+                                <p>Videos, docs, images, zips — send anything you want.</p>
+                            </div>
+                            <div className='feature-box'>
+                                <Heart size={32} strokeWidth={1.5} />
+                                <h3>Completely Free</h3>
+                                <p>No subscriptions, no limits, no hidden costs. Always free.</p>
+                            </div>
+                         
                         </div>
                         <button className='process-button'>Send a File</button>
                     </div>
