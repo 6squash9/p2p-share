@@ -112,7 +112,7 @@ function LandingPage() {
                             <div className='process-box'>
                                 <div className='step-number'>01</div>
                                 <h3>Initialize</h3>
-                                <p>Generate a secure, private room instantly. No signups, no tracking—just a temporary space for your share.</p>
+                                <p>Generate a secure, private room instantly. No signup, no tracking. Just a temporary space to share freely</p>
                             </div>
                             <div className='process-box'>
                                 <div className='step-number'>02</div>
@@ -160,7 +160,7 @@ function LandingPage() {
                                 <h3>No File Size Limits</h3>
                                 <p>Send files of any size. No restrictions whatsoever.</p>
                             </div>
-                               <div className='feature-box'>
+                            <div className='feature-box'>
                                 <FileCheck size={32} strokeWidth={1.5} />
                                 <h3>Any File Type</h3>
                                 <p>Videos, docs, images, zips — send anything you want.</p>
@@ -170,17 +170,33 @@ function LandingPage() {
                                 <h3>Completely Free</h3>
                                 <p>No subscriptions, no limits, no hidden costs. Always free.</p>
                             </div>
-                         
+
                         </div>
                         <button className='process-button'>Send a File</button>
                     </div>
                 </div>
             </section >
 
+            {/* Footer */}
+            <footer className='footer'>
+                <div className='footer-inner'>
+                    <div className='footer-content'>
+                        <div className='logo'>Peer<span>Send</span></div>
+                        <div className='footer-links'>
+                            <a href="#">About</a>
+                            <a href="#">Privacy</a>
+                            <a href="#">Terms</a>
+                            <a href="#">Contact</a>
+                        </div>
+                    </div>
+                    <div className='footer-bottom'>
+                        <p>&copy; {new Date().getFullYear()} PeerSend. All rights reserved.</p>
+                    </div>
+                </div>
+            </footer>
+
+
         </div >
-
-
-
     )
 }
 
