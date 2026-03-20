@@ -6,7 +6,7 @@ function Navbar({ lenisRef }) {
     return (
         <nav className='navbar'>
             <div className='nav-inner'>
-                <div className='logo'>Peer<span>Send</span></div>
+                <div onClick={() => { navigate("/") }} className='logo'>Peer<span>Send</span></div>
                 <div className='nav-links'>
                     <a href="#">About</a>
                     <a href="#">Blog</a>
