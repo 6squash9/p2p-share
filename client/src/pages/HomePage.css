@@ -1,0 +1,180 @@
+.home-wrapper {
+    background-color: #030303;
+    font-family: 'Satoshi', sans-serif;
+    color: #F9FAFB;
+    height: 100vh;
+    width: 100vw;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.home-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: 
+        radial-gradient(circle at 50% -20%, #6214D9 0%, transparent 65%),
+        radial-gradient(circle at 50% 0%, rgba(98, 20, 217, 0.15) 0%, transparent 80%);
+    opacity: 0;
+    filter: blur(80px);
+    animation: bgFadeIn 3s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation-delay: 0.4s;
+}
+
+@keyframes bgFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px) scale(1.1);
+        filter: blur(100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(50px);
+    }
+}
+
+.home-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    padding-top: 30px;
+    opacity: 0;
+    animation: homeRaiseUp 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-delay: 0.6s;
+}
+
+@keyframes homeRaiseUp {
+    from {
+        transform: translateY(40px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.home-content h2 {
+    font-size: 80px;
+    font-weight: 600;
+    letter-spacing: -0.05em;
+    line-height: 1;
+    margin: 0;
+    background: linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0.7) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+    height: 90px;
+}
+
+.home-content h2 .accent-text {
+    font-style: italic;
+    font-family: 'Instrument Serif', serif;
+}
+
+.home-subtitle {
+    font-size: 22px;
+    color: #999;
+    max-width: 650px;
+    line-height: 1.5;
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.room-controls {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 24px;
+    background-color: rgba(13, 13, 13, 0.5);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 999px;
+    padding: 8px 14px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.join-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 6px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
+}
+
+.join-group:focus-within {
+    border-color: rgba(98, 20, 217, 0.5);
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.room-controls input {
+    background: transparent;
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    font-family: 'Satoshi', sans-serif;
+    font-size: 16px;
+    width: 200px;
+    outline: none;
+}
+
+.room-controls input::placeholder {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.room-controls .primary-btn {
+    background-color: #6214D9;
+    color: white;
+   border: 4px solid transparent;
+    padding: 12px 28px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-family: 'Satoshi', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    transition: all 1s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.room-controls .primary-btn:hover {
+     background-color: #6214D9;
+    border-color: #7A2DF7;
+    box-shadow: 0 0 15px rgba(122, 45, 247, 0.4);
+}
+
+.room-controls .secondary-btn {
+    background: #6214D9;
+    border: 4px solid transparent;
+    color: white;
+    padding: 10px 24px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-family: 'Satoshi', sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+  transition: all 1s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.room-controls .secondary-btn:hover {
+ background-color: #6214D9;
+    border-color: #7A2DF7;
+    box-shadow: 0 0 15px rgba(122, 45, 247, 0.4);
+}
+
+.room-controls .divider {
+    color: rgba(255, 255, 255, 0.2);
+    font-size: 20px;
+    font-weight: 500;
+    margin: 0;
+}

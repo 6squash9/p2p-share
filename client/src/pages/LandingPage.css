@@ -4,75 +4,6 @@
     color: #F9FAFB;
 }
 
-.navbar {
-    display: flex;
-    justify-content: center;
-    padding-left: 64px;
-    padding-right: 64px;
-    padding-top: 40px;
-    padding-bottom: 24px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 100;
-}
-
-.nav-inner {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    max-width: 800px;
-    background-color: rgba(13, 13, 13, 0.5);
-    backdrop-filter: blur(10px);
-    border-radius: 999px;
-    padding: 12px 24px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    height: 60px;
-}
-
-.logo {
-    font-size: 20px;
-    font-weight: 700;
-    font-family: "Instrument Serif", serif;
-}
-
-.logo span {
-    color: rgba(252, 252, 250, 0.5);
-}
-
-.nav-links {
-    display: flex;
-    gap: 32px;
-}
-
-.nav-links a {
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 500;
-}
-
-.nav-buttons button {
-    background-color: #6214D9;
-    color: white;
-    border: 4px solid transparent;
-    padding: 10px 20px;
-    border-radius: 999px;
-    cursor: pointer;
-    font-family: 'Satoshi', sans-serif;
-    font-size: 15px;
-    transition: all 1s cubic-bezier(0.22, 1, 0.36, 1);
-
-}
-
-.nav-buttons button:hover {
-    background-color: #6214D9;
-    border-color: #7A2DF7;
-    box-shadow: 0 0 15px rgba(122, 45, 247, 0.4);
-}
-
-
 /* Outer wrapper */
 .hero-pin-wrapper {
     position: relative;
@@ -98,6 +29,20 @@
     padding-bottom: 60px;
     z-index: 1;
     flex-shrink: 0;
+    opacity: 0;
+    animation: raiseUp 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-delay: 0.4s;
+}
+
+@keyframes raiseUp {
+    from {
+        transform: translateY(80px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 
 .hero-text h1 {
@@ -180,6 +125,9 @@
     margin: 0 auto;
     flex-shrink: 0;
     margin-top: 60px;
+    opacity: 0;
+    animation: raiseUp 1.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-delay: 0.6s;
 }
 
 .hero-video {
