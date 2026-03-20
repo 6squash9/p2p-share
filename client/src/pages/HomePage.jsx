@@ -20,6 +20,13 @@ function HomePage() {
 
     return (
         <>
+        <div className="home-wrapper">
+
+            
+        </div>
+
+
+
             <button onClick={createRoom}>Create a Room</button>
             <input type="text" placeholder="enter the roomId"
                    value={inputRoomId} onChange={(e) => {
