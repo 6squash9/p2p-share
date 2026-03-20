@@ -56,13 +56,22 @@
 .nav-buttons button {
     background-color: #6214D9;
     color: white;
-    border: none;
+    border: 4px solid transparent;
     padding: 10px 20px;
     border-radius: 999px;
     cursor: pointer;
     font-family: 'Satoshi', sans-serif;
     font-size: 15px;
+    transition: all 1s cubic-bezier(0.22, 1, 0.36, 1);
+
 }
+
+.nav-buttons button:hover {
+    background-color: #6214D9;
+    border-color: #7A2DF7;
+    box-shadow: 0 0 15px rgba(122, 45, 247, 0.4);
+}
+
 
 /* Outer wrapper */
 .hero-pin-wrapper {
@@ -127,7 +136,7 @@
 .btn-primary {
     background-color: #6214D9;
     color: white;
-    border: none;
+    border: 4px solid transparent;
     padding: 10px 20px;
     border-radius: 999px;
     cursor: pointer;
@@ -136,6 +145,13 @@
     height: 67px;
     width: 195px;
     text-align: center;
+    transition: all 1s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.btn-primary:hover {
+    background-color: #6214D9;
+    border-color: #7A2DF7;
+    box-shadow: 0 0 15px rgba(122, 45, 247, 0.4);
 }
 
 .btn-secondary {
@@ -367,8 +383,10 @@
 .feature-boxes {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    column-gap: 40px; /* horizontal gap */
-  row-gap: 80px;    /* vertical gap */
+    column-gap: 40px;
+    /* horizontal gap */
+    row-gap: 80px;
+    /* vertical gap */
 }
 
 .feature-box {
@@ -425,6 +443,7 @@
 .feature-box:hover svg {
     color: #6214D9;
 }
+
 /* Lock — pulse */
 .feature-box:nth-child(1) svg {
     animation: pulse 2s ease-in-out infinite;
@@ -439,6 +458,7 @@
 .feature-box:nth-child(3) svg {
     transition: transform 0.3s ease;
 }
+
 .feature-box:nth-child(3):hover svg {
     animation: shake 0.4s ease;
 }
@@ -458,34 +478,79 @@
 }
 
 @keyframes pulse {
-    0%, 100% { transform: scale(1); opacity: 0.6; }
-    50% { transform: scale(1.1); opacity: 1; }
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 0.6;
+    }
+
+    50% {
+        transform: scale(1.1);
+        opacity: 1;
+    }
 }
 
 @keyframes flicker {
-    0%, 100% { opacity: 0.6; }
-    50% { opacity: 1; }
+
+    0%,
+    100% {
+        opacity: 0.6;
+    }
+
+    50% {
+        opacity: 1;
+    }
 }
 
 @keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-4px); }
-    75% { transform: translateX(4px); }
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-4px);
+    }
+
+    75% {
+        transform: translateX(4px);
+    }
 }
 
 @keyframes spinSlow {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 @keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-6px); }
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-6px);
+    }
 }
 
 @keyframes heartbeat {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.15); }
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.15);
+    }
 }
 
 /* Footer */
@@ -541,7 +606,3 @@
     color: #666;
     font-size: 14px;
 }
-
-
-
-

@@ -2,12 +2,15 @@ import './LandingPage.css'
 import { useEffect, useRef } from 'react'
 import Lenis from 'lenis'
 import { Lock, Zap, UserX, FileCheck, Heart, Infinity } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 
 function LandingPage() {
     const videoTextRef = useRef(null)
     const videoWrapperRef = useRef(null)
     const heroRef = useRef(null)
     const heroTextRef = useRef(null)
+    const lenisRef = useRef(null)
+    const navigate = useNavigate();
 
     useEffect(() => {
         // setting up lenis
@@ -15,6 +18,7 @@ function LandingPage() {
             lerp: 0.1,
             smoothWheel: true,
         })
+        lenisRef.current = lenis
 
         lenis.on('scroll', ({ scroll }) => {
             // --- Text Nudge Animation ---
@@ -58,11 +62,11 @@ function LandingPage() {
                     <div className='nav-links'>
                         <a href="#">About</a>
                         <a href="#">Blog</a>
-                        <a href="#">Features</a>
-                        <a href="#">How it works</a>
+                        <a href="#features" onClick={(e) => { e.preventDefault(); lenisRef.current?.scrollTo('#features', { duration: 1.2 }) }}>Features</a>
+                        <a href="#how-it-works" onClick={(e) => { e.preventDefault(); lenisRef.current?.scrollTo('#how-it-works', { duration: 1.2 }) }}>How it works</a>
                     </div>
                     <div className='nav-buttons'>
-                        <button>Get Started</button>
+                        <button onClick={() => navigate("/room")}>Get Started</button>
                     </div>
                 </div>
             </nav>
@@ -78,7 +82,7 @@ function LandingPage() {
                             Send files directly to anyone. No middleman. No storage. No signup. Just fast, private sharing.
                         </p>
                         <div className='hero-buttons'>
-                            <button className='btn-primary'>Send a File →</button>
+                            <button className='btn-primary' onClick={() => navigate("/room")}>Send a File →</button>
                             <button className='btn-secondary'>How it works</button>
                         </div>
                     </div>
@@ -100,7 +104,7 @@ function LandingPage() {
             </section>
             {/* How it works */}
 
-            <section className='process'>
+            <section id='how-it-works' className='process'>
                 <div className='process-border'>
                     <div className='process-inner'>
                         <div className='process-text'>
@@ -125,13 +129,13 @@ function LandingPage() {
                                 <p>Stream files browser-to-browser. Your data never touches a server, ensuring absolute privacy and maximum speed.</p>
                             </div>
                         </div>
-                        <button className='process-button'>Send a File</button>
+                        <button className='process-button' onClick={() => navigate("/room")}>Send a File</button>
                     </div>
                 </div>
             </section >
 
             {/* Features */}
-            <section className='features'>
+            <section id='features' className='features'>
                 <div className='features-border'>
                     <div className='process-inner'>
                         <div className='feature-text'>
@@ -172,7 +176,7 @@ function LandingPage() {
                             </div>
 
                         </div>
-                        <button className='process-button'>Send a File</button>
+                        <button className='process-button' onClick={() => { navigate("/room") }}>Send a File</button>
                     </div>
                 </div>
             </section >
