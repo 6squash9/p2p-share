@@ -10,6 +10,20 @@
     left: 0;
     right: 0;
     z-index: 100;
+    opacity: 0;
+    animation: slideDown 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-delay: 0.2s;
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-60px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 
 .nav-inner {
@@ -20,9 +34,9 @@
     max-width: 800px;
     background-color: rgba(13, 13, 13, 0.5);
     backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 999px;
     padding: 12px 24px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
     height: 60px;
 }
 

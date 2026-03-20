@@ -29,6 +29,20 @@
     padding-bottom: 60px;
     z-index: 1;
     flex-shrink: 0;
+    opacity: 0;
+    animation: raiseUp 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-delay: 0.4s;
+}
+
+@keyframes raiseUp {
+    from {
+        transform: translateY(80px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 
 .hero-text h1 {
@@ -111,6 +125,9 @@
     margin: 0 auto;
     flex-shrink: 0;
     margin-top: 60px;
+    opacity: 0;
+    animation: raiseUp 1.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-delay: 0.6s;
 }
 
 .hero-video {
