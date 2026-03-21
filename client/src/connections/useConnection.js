@@ -6,7 +6,7 @@ const generateName = () => {
     const animals = ["Panda", "Capybara", "Axolotl", "Quokka", "Raccoon", "Platypus", "Narwhal", "Wombat", "Tardigrade", "Pangolin"]
     const adj = adjectives[Math.floor(Math.random() * adjectives.length)]
     const animal = animals[Math.floor(Math.random() * animals.length)]
-    return `${adj}${animal}`
+    return `${adj} ${animal}`
 }
 const name = generateName();
 
