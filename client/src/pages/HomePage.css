@@ -178,3 +178,40 @@
     font-weight: 500;
     margin: 0;
 }
+
+@media screen and (max-width: 768px) {
+    .home-content {
+        padding: 0 20px;
+    }
+    .home-content h2 {
+        font-size: 44px;
+        height: auto;
+        line-height: 1.1;
+    }
+    .home-subtitle {
+        font-size: 16px;
+        padding: 0 10px;
+    }
+    .room-controls {
+        flex-direction: column;
+        border-radius: 24px;
+        padding: 20px;
+        width: 100%;
+        max-width: 400px;
+        gap: 16px;
+    }
+    .room-controls .primary-btn {
+        width: 100%;
+    }
+    .join-group {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
+    .room-controls input {
+        width: 100%;
+    }
+    .room-controls .divider {
+        margin: 4px 0;
+    }
+}

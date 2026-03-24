@@ -1,15 +1,33 @@
-import {useParams} from "react-router-dom";
+import { useParams } from "react-router-dom";
 import useConnection from "../connections/useConnection.js";
 import FileTransfer from "../components /FileTransfer.jsx";
-import {useEffect} from "react";
+import { useEffect, useState, useCallback } from "react";
+import { Copy, Check, Download, Inbox } from "lucide-react";
+import "./RoomPage.css";
 
 function RoomPage() {
-    const {roomId} = useParams(); //get the roomId from the url
-    const {role, connectionState, channelRef, peerName, name} = useConnection(roomId); //object destructuring
+    const { roomId } = useParams();
+    const { role, connectionState, channelRef, peerName, name } = useConnection(roomId);
+    const [copied, setCopied] = useState(false);
+    const [copiedCode, setCopiedCode] = useState(false);
+    const [receivedFiles, setReceivedFiles] = useState([]);
+
+    const handleReceivedFilesChange = useCallback((files) => {
+        setReceivedFiles(files);
+    }, []);
 
     const copyLink = () => {
-        navigator.clipboard.writeText(window.location.href)
+        navigator.clipboard.writeText(window.location.href);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
     }
+
+    const copyCode = () => {
+        navigator.clipboard.writeText(roomId);
+        setCopiedCode(true);
+        setTimeout(() => setCopiedCode(false), 2000);
+    }
+
     useEffect(() => {
         if (connectionState === "connected") {
             const handleBeforeUnload = (e) => {
@@ -21,17 +39,102 @@ function RoomPage() {
     }, [connectionState])
 
     return (
-        <>
-            <div>You are: {name}</div>
-            {peerName && <div>{peerName} has joined!</div>}
-            {/*conditional rendering*/}
-            {connectionState === "connected" ? <div style={{color: "green"}}>Webrtc Connected</div> :
-                <div style={{color: "red"}}>Webrtc not Connected</div>}
-            <div>Your RoomId:- {roomId}</div>
-            {connectionState === "connected" ? <FileTransfer channelRef={channelRef}></FileTransfer> :
-                <div>please connect</div>}
-            <button onClick={copyLink}>Copy the link of this Room</button>
-        </>
+        <div className="room-wrapper">
+            <div className="room-bg" />
+
+            <div className="room-main">
+                {/* Left: Main card */}
+                <div className="room-card">
+                    <div className="room-header">
+                        <h1 className="room-title">Transfer Room</h1>
+                        <div className="room-id-row">
+                            <div className="room-id">
+                                Room Code: {roomId}
+                                <button className="copy-code-btn" onClick={copyCode} title="Copy room code">
+                                    {copiedCode ? <Check size={11} /> : <Copy size={11} />}
+                                </button>
+                            </div>
+                            <button className="copy-link-btn" onClick={copyLink}>
+                                <span className="copy-link-inner">
+                                    {copied ? <Check size={14} /> : <Copy size={14} />}
+                                    {copied ? "Copied!" : "Copy Room Link"}
+                                </span>
+                            </button>
+                        </div>
+                        {connectionState !== "connected" && (
+                            <p className="share-hint">Send this link to a friend to connect</p>
+                        )}
+                    </div>
+
+                    <div className={`connection-status ${connectionState === "connected" ? "status-connected" : "status-disconnected"}`}>
+                        <div className="status-dot"></div>
+                        {connectionState === "connected" ? "Securely Connected" : "Waiting for peer..."}
+                    </div>
+
+                    <div className="users-container">
+                        <div className="user-row">
+                            <div className="user-identity">
+                                <div className="user-avatar">{name ? name.charAt(0).toUpperCase() : "U"}</div>
+                                <div>
+                                    <div className="user-name">{name || "You"}</div>
+                                    <div className="user-label">Your Device</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="user-row" style={{ opacity: peerName ? 1 : 0.5 }}>
+                            <div className="user-identity">
+                                <div className="user-avatar peer-avatar" style={!peerName ? { background: 'rgba(255,255,255,0.05)' } : undefined}>
+                                    {peerName ? peerName.charAt(0).toUpperCase() : '?'}
+                                </div>
+                                <div>
+                                    <div className="user-name">{peerName || 'Waiting...'}</div>
+                                    <div className="user-label">{peerName ? 'Connected Peer' : 'Share link to connect'}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {connectionState === "connected" ? (
+                        <FileTransfer channelRef={channelRef} onReceivedFilesChange={handleReceivedFilesChange} />
+                    ) : (
+                        <div className="transfer-status-text">
+                            Files can be transferred securely once a peer connects.
+                        </div>
+                    )}
+
+                </div>
+
+                {/* Right: Received files panel — only shown when connected */}
+                {connectionState === "connected" ? (
+                    <div className="received-files-panel">
+                        <div className="received-files-panel-header">
+                            <Inbox size={16} />
+                            <span>Received Files</span>
+                            {receivedFiles.length > 0 ? <span className="received-files-badge">{receivedFiles.length}</span> : null}
+                        </div>
+
+                        <div className="received-files-scroll">
+                            {receivedFiles.length === 0 ? (
+                                <div className="received-files-empty">
+                                    <div className="received-files-empty-icon">📭</div>
+                                    <div>Files received from your peer will appear here</div>
+                                </div>
+                            ) : (
+                                receivedFiles.map((file, index) => (
+                                    <div key={index} className="received-file-item">
+                                        <a href={file.url} download={file.name} className="received-file-name">{file.name}</a>
+                                        <a href={file.url} download={file.name} className="download-icon">
+                                            <Download size={16} />
+                                        </a>
+                                    </div>
+                                ))
+                            )}
+                        </div>
+                    </div>
+                ) : null}
+            </div>
+        </div>
     )
 }
 

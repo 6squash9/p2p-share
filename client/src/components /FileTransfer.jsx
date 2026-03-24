@@ -1,30 +1,74 @@
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import useSender from "../connections/useSender.js";
 import useReceiver from "../connections/useReceiver.js";
+import { UploadCloud } from "lucide-react";
 
-function FileTransfer({channelRef}) {
+function FileTransfer({channelRef, onReceivedFilesChange}) {
     const [file, setFile] = useState(null);
     const [sendProgress, setSenderProgress] = useState(0); //0-100
 
-    const {sendFile} = useSender(channelRef, setSenderProgress); //useSender returns an object
-    const {progress, receivedFiles} = useReceiver(channelRef)
+    const {sendFile} = useSender(channelRef, setSenderProgress);
+    const {progress, receivedFiles} = useReceiver(channelRef);
+
+    // Bubble up receivedFiles to parent (RoomPage) so it can render the side panel
+    useEffect(() => {
+        if (onReceivedFilesChange) {
+            onReceivedFilesChange(receivedFiles);
+        }
+    }, [receivedFiles]);
 
     const share = () => {
-        sendFile(file)
+        if (file) {
+            sendFile(file);
+        }
     }
 
     return (
-        <>
-            <input type="file" onChange={(e) => setFile(e.target.files[0])}/>
-            <button onClick={share} disabled={!file}>Send</button>
-            <div>Progress during Sending: {sendProgress}%</div>
-            <div>Progress during Receiving : {progress}%</div>
-            {receivedFiles.map((file, index) => (
-                <div key={index}>
-                    <a href={file.url} download={file.name}>{file.name}</a>
+        <div className="transfer-section">
+            <div className="file-input-wrapper">
+                <input 
+                    type="file" 
+                    className="file-input-actual" 
+                    onChange={(e) => setFile(e.target.files[0])}
+                />
+                <div className="file-input-button">
+                    <UploadCloud size={20} />
+                    {file ? file.name : "Select a file to send..."}
                 </div>
-            ))}
-        </>
+            </div>
+            
+            <button 
+                className="send-button" 
+                onClick={share} 
+                disabled={!file || (sendProgress > 0 && sendProgress < 100)}
+            >
+                {sendProgress > 0 && sendProgress < 100 ? `Sending... ${sendProgress}%` : "Send File"}
+            </button>
+
+            {sendProgress > 0 && (
+                <div className="progress-container">
+                    <div className="progress-label">
+                        <span>Uploading {file?.name}</span>
+                        <span>{sendProgress}%</span>
+                    </div>
+                    <div className="progress-bar-bg">
+                        <div className="progress-bar-fill" style={{ width: `${sendProgress}%` }}></div>
+                    </div>
+                </div>
+            )}
+            
+            {progress > 0 && progress < 100 && (
+                <div className="progress-container">
+                    <div className="progress-label">
+                        <span>Receiving file...</span>
+                        <span>{progress}%</span>
+                    </div>
+                    <div className="progress-bar-bg">
+                        <div className="progress-bar-fill" style={{ width: `${progress}%` }}></div>
+                    </div>
+                </div>
+            )}
+        </div>
     )
 
 }
