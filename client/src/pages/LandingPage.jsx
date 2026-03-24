@@ -86,7 +86,7 @@ function LandingPage() {
                         </p>
                         <div className='hero-buttons'>
                             <button className='btn-primary' onClick={() => navigate("/room")}>Send a File →</button>
-                            <button className='btn-secondary'>How it works</button>
+                            <button className='btn-secondary' onClick={() => lenisRef.current?.scrollTo('#how-it-works', { duration: 1.2 })}>How it works</button>
                         </div>
                     </div>
 
