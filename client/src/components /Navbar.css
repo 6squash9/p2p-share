@@ -86,3 +86,21 @@
     border-color: #7A2DF7;
     box-shadow: 0 0 15px rgba(122, 45, 247, 0.4);
 }
+
+@media screen and (max-width: 768px) {
+    .navbar {
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-top: 20px;
+    }
+    .nav-links {
+        display: none;
+    }
+    .nav-inner {
+        padding: 8px 16px;
+    }
+    .nav-buttons button {
+        width: 110px;
+        font-size: 13px;
+    }
+}
