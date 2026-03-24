@@ -2,7 +2,7 @@ import './LandingPage.css'
 import { useEffect, useRef } from 'react'
 import Lenis from 'lenis'
 import { Lock, Zap, UserX, FileCheck, Heart, Infinity } from 'lucide-react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import Navbar from '../components /Navbar'
 
 function LandingPage() {
@@ -12,6 +12,7 @@ function LandingPage() {
     const heroTextRef = useRef(null)
     const lenisRef = useRef(null)
     const navigate = useNavigate();
+    const location = useLocation();
 
     useEffect(() => {
         // setting up lenis
@@ -20,6 +21,19 @@ function LandingPage() {
             smoothWheel: true,
         })
         lenisRef.current = lenis
+
+        // Check for section parameter from the url upon page load
+        const params = new URLSearchParams(location.search)
+        // get the section id from the url anything after ?section=
+        const sectionId = params.get('section')
+        if (sectionId) {
+            // Small timeout to ensure DOM is ready and Lenis is settled
+            setTimeout(() => {
+                lenis.scrollTo(`#${sectionId}`, { duration: 1.2 })
+                // Clean up the URL
+                navigate('/', { replace: true })
+            }, 100)
+        }
 
         lenis.on('scroll', ({ scroll }) => {
             // --- Text Nudge Animation ---

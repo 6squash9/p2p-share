@@ -1,8 +1,20 @@
 import './Navbar.css'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 
 function Navbar({ lenisRef }) {
     const navigate = useNavigate()
+    const location = useLocation()
+    const isOnLanding = location.pathname === '/'
+
+    const handleSectionNav = (e, sectionId) => {
+        e.preventDefault()
+        if (isOnLanding && lenisRef?.current) {
+            lenisRef.current.scrollTo(`#${sectionId}`, { duration: 1.2 })
+        } else {
+            navigate(`/?section=${sectionId}`)
+        }
+    }
+
     return (
         <nav className='navbar'>
             <div className='nav-inner'>
@@ -10,8 +22,8 @@ function Navbar({ lenisRef }) {
                 <div className='nav-links'>
                     <a href="#">About</a>
                     <a href="#">Blog</a>
-                    <a href="#features" onClick={(e) => { e.preventDefault(); lenisRef.current?.scrollTo('#features', { duration: 1.2 }) }}>Features</a>
-                    <a href="#how-it-works" onClick={(e) => { e.preventDefault(); lenisRef.current?.scrollTo('#how-it-works', { duration: 1.2 }) }}>How it works</a>
+                    <a href="#features" onClick={(e) => handleSectionNav(e, 'features')}>Features</a>
+                    <a href="#how-it-works" onClick={(e) => handleSectionNav(e, 'how-it-works')}>How it works</a>
                 </div>
                 <div className='nav-buttons'>
                     <button onClick={() => navigate("/room")}>Get Started</button>

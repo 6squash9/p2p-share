@@ -66,7 +66,7 @@
 .room-header {
     text-align: center;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    padding-bottom: 24px;
+    padding-bottom: 14px;
 }
 
 .room-title {
@@ -87,7 +87,8 @@
     background: rgba(0, 0, 0, 0.4);
     padding: 6px 12px;
     border-radius: 8px;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
     border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
@@ -475,52 +476,36 @@
     background: rgba(16, 185, 129, 0.2);
 }
 
-/* Copy Link Button */
+/* Copy Room Link Button */
 .copy-link-btn {
-    position: relative;
-    padding: 1.5px;
+    display: flex;
+    align-items: center;
+    padding: 0;
     border-radius: 999px;
-    border: none;
-    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.04);
     cursor: pointer;
-    align-self: center;
-    overflow: hidden;
+    transition: border-color 0.2s ease, background 0.2s ease;
 }
 
-.copy-link-btn::before {
-    content: '';
-    position: absolute;
-    width: 200%;
-    aspect-ratio: 1;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) rotate(0deg);
-    background: conic-gradient(from 0deg, transparent 75%, #7A2DF7 87%, #a06dfa 93%, transparent);
-    animation: snakeBorder 2.5s linear infinite;
-}
-
-.copy-link-btn:hover::before {
-    animation-play-state: paused;
+.copy-link-btn:hover {
+    border-color: rgba(255, 255, 255, 0.28);
+    background: rgba(255, 255, 255, 0.07);
 }
 
 .copy-link-inner {
-    position: relative;
-    z-index: 1;
     display: flex;
     align-items: center;
     gap: 6px;
-    padding: 4px 11px;
-    background: rgba(13, 13, 13, 0.9);
-    border-radius: 999px;
-    backdrop-filter: blur(10px);
+    padding: 5px 12px;
     font-family: 'Satoshi', sans-serif;
     font-size: 12px;
-    color: rgba(255, 255, 255, 0.5);
-    transition: color 0.3s ease;
+    color: rgba(255, 255, 255, 0.45);
+    transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
 }
 
 .copy-link-btn:hover .copy-link-inner {
-    color: rgba(255, 255, 255, 0.9);
+    color: rgba(255, 255, 255, 0.85);
 }
 
 @keyframes snakeBorder {
@@ -531,4 +516,41 @@
     to {
         transform: translate(-50%, -50%) rotate(360deg);
     }
+}
+
+/* Copy Code Button */
+.copy-code-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    padding: 2px 4px;
+    margin-left: 6px;
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+    transition: color 0.2s ease, background 0.2s ease;
+    vertical-align: middle;
+    line-height: 1;
+}
+
+.copy-code-btn:hover {
+    color: rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+/* Share Hint */
+.share-hint {
+    margin-top: 10px;
+    padding: 0px 10px;
+    text-align: center;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.28);
+    animation: shareHintFadeIn 0.4s ease forwards;
+}
+
+@keyframes shareHintFadeIn {
+    from { opacity: 0; transform: translateY(-4px); }
+    to   { opacity: 1; transform: translateY(0); }
 }

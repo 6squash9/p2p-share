@@ -9,6 +9,7 @@ function RoomPage() {
     const { roomId } = useParams();
     const { role, connectionState, channelRef, peerName, name } = useConnection(roomId);
     const [copied, setCopied] = useState(false);
+    const [copiedCode, setCopiedCode] = useState(false);
     const [receivedFiles, setReceivedFiles] = useState([]);
 
     const handleReceivedFilesChange = useCallback((files) => {
@@ -19,6 +20,12 @@ function RoomPage() {
         navigator.clipboard.writeText(window.location.href);
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
+    }
+
+    const copyCode = () => {
+        navigator.clipboard.writeText(roomId);
+        setCopiedCode(true);
+        setTimeout(() => setCopiedCode(false), 2000);
     }
 
     useEffect(() => {
@@ -41,14 +48,22 @@ function RoomPage() {
                     <div className="room-header">
                         <h1 className="room-title">Transfer Room</h1>
                         <div className="room-id-row">
-                            <div className="room-id">ID: {roomId}</div>
+                            <div className="room-id">
+                                Room Code: {roomId}
+                                <button className="copy-code-btn" onClick={copyCode} title="Copy room code">
+                                    {copiedCode ? <Check size={11} /> : <Copy size={11} />}
+                                </button>
+                            </div>
                             <button className="copy-link-btn" onClick={copyLink}>
                                 <span className="copy-link-inner">
                                     {copied ? <Check size={14} /> : <Copy size={14} />}
-                                    {copied ? "Copied!" : "Copy Link"}
+                                    {copied ? "Copied!" : "Copy Room Link"}
                                 </span>
                             </button>
                         </div>
+                        {connectionState !== "connected" && (
+                            <p className="share-hint">Send this link to a friend to connect</p>
+                        )}
                     </div>
 
                     <div className={`connection-status ${connectionState === "connected" ? "status-connected" : "status-disconnected"}`}>
@@ -69,10 +84,7 @@ function RoomPage() {
 
                         <div className="user-row" style={{ opacity: peerName ? 1 : 0.5 }}>
                             <div className="user-identity">
-                                <div
-                                    className="user-avatar peer-avatar"
-                                    style={!peerName ? { background: 'rgba(255,255,255,0.05)' } : undefined}
-                                >
+                                <div className="user-avatar peer-avatar" style={!peerName ? { background: 'rgba(255,255,255,0.05)' } : undefined}>
                                     {peerName ? peerName.charAt(0).toUpperCase() : '?'}
                                 </div>
                                 <div>
