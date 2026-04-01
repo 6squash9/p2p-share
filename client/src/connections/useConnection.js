@@ -21,7 +21,7 @@ function useConnection(roomId) {
     // websocket connection the moment page loads
     useEffect(() => {
         //open websocket connection
-        const ws = new WebSocket("ws://localhost:8080/signal");
+        const ws = new WebSocket(`${import.meta.env.VITE_BACKEND_URL.replace("http", "ws")}/signal`);
         // webrtc object
         const pc = new RTCPeerConnection({
             iceServers: [{urls: "stun:stun.l.google.com:19302"}] //stun server
@@ -29,14 +29,14 @@ function useConnection(roomId) {
 
         // runs automatically when connection is established
         ws.onopen = () => {
-            console.log("WebSocket connection opened");
+            // console.log("WebSocket connection opened");
             //backend expects a type, roomId and name
             ws.send(JSON.stringify({type: "join", roomId, name})); //convert to string before sending
         }
         // runs automatically when server sends a message
         ws.onmessage = (event) => {
             const msg = JSON.parse(event.data);
-            console.log("Message from server: ", msg);
+            // console.log("Message from server: ", msg);
             if (msg.type === "role") {
                 setRole(msg.role); //updates ui
                 roleRef.current = msg.role; //immediately readable
