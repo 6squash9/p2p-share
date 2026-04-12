@@ -65,6 +65,9 @@ function useConnection(roomId) {
             if (msg.type === "error" && msg.error === "room_not_found") {
                 setConnectionState("room_not_found")
             }
+            if(msg.type==="error" && msg.error === "room_full"){
+                setConnectionState("room_full")
+            }
             //responder receives offer from initiator
             if (msg.type === "offer") {
                 const handleOffer = async () => {

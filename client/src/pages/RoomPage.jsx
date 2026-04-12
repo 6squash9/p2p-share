@@ -60,6 +60,24 @@ function RoomPage() {
             </div>
         )
     }
+    if(connectionState === "room_full"){
+        return(
+            <div className="room-wrapper">
+                <Navbar />
+                <div className="home-bg" />
+                <div className="room-not-found-container">
+                    <div className="home-content">
+                        <h2>Room <span className="accent-text">Full</span></h2>
+                        <p className="home-subtitle">This room is full. Please create a new room to transfer files.</p>
+                        <div className="room-controls room-not-found-controls">
+                            <button className="primary-btn" onClick={() => navigate("/")}>Go Home</button>
+                        </div>
+                    </div>
+                </div>
+                <Footer />
+            </div>
+        )
+    }
     return (
         <div className="room-wrapper">
             <div className="room-bg" />
