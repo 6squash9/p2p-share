@@ -79,6 +79,7 @@
 .home-content h2 .accent-text {
     font-style: italic;
     font-family: 'Instrument Serif', serif;
+    padding-right: 0.15em;
 }
 
 .home-subtitle {

@@ -4,6 +4,7 @@ import Lenis from 'lenis'
 import { Lock, Zap, UserX, FileCheck, Heart, Infinity } from 'lucide-react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import Navbar from '../components /Navbar'
+import Footer from '../components /Footer'
 
 function LandingPage() {
     const videoTextRef = useRef(null)
@@ -185,22 +186,7 @@ function LandingPage() {
             </section >
 
             {/* Footer */}
-            <footer className='footer'>
-                <div className='footer-inner'>
-                    <div className='footer-content'>
-                        <div className='logo'>Peer<span>Send</span></div>
-                        <div className='footer-links'>
-                            <a href="#">About</a>
-                            <a href="#">Privacy</a>
-                            <a href="#">Terms</a>
-                            <a href="#">Contact</a>
-                        </div>
-                    </div>
-                    <div className='footer-bottom'>
-                        <p>&copy; {new Date().getFullYear()} PeerSend. All rights reserved.</p>
-                    </div>
-                </div>
-            </footer>
+            <Footer />
 
 
         </div >

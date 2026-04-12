@@ -1,12 +1,16 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import useConnection from "../connections/useConnection.js";
 import FileTransfer from "../components /FileTransfer.jsx";
+import Navbar from "../components /Navbar.jsx";
 import { useEffect, useState, useCallback } from "react";
 import { Copy, Check, Download, Inbox } from "lucide-react";
 import "./RoomPage.css";
+import "./HomePage.css";
+import Footer from "../components /Footer.jsx";
 
 function RoomPage() {
     const { roomId } = useParams();
+    const navigate = useNavigate();
     const { role, connectionState, channelRef, peerName, name } = useConnection(roomId);
     const [copied, setCopied] = useState(false);
     const [copiedCode, setCopiedCode] = useState(false);
@@ -38,6 +42,24 @@ function RoomPage() {
         }
     }, [connectionState])
 
+    if (connectionState === "room_not_found") {
+        return (
+            <div className="room-wrapper">
+                <Navbar />
+                <div className="home-bg" />
+                <div className="room-not-found-container">
+                    <div className="home-content">
+                        <h2>Room <span className="accent-text">Not Found</span></h2>
+                        <p className="home-subtitle">This room no longer exists or has expired.</p>
+                        <div className="room-controls room-not-found-controls">
+                            <button className="primary-btn" onClick={() => navigate("/")}>Go Home</button>
+                        </div>
+                    </div>
+                </div>
+                <Footer />
+            </div>
+        )
+    }
     return (
         <div className="room-wrapper">
             <div className="room-bg" />
@@ -47,28 +69,36 @@ function RoomPage() {
                 <div className="room-card">
                     <div className="room-header">
                         <h1 className="room-title">Transfer Room</h1>
-                        <div className="room-id-row">
-                            <div className="room-id">
-                                Room Code: {roomId}
-                                <button className="copy-code-btn" onClick={copyCode} title="Copy room code">
-                                    {copiedCode ? <Check size={11} /> : <Copy size={11} />}
+                        {connectionState !== "failed" && (
+                            <div className="room-id-row">
+                                <div className="room-id">
+                                    Room Code: {roomId}
+                                    <button className="copy-code-btn" onClick={copyCode} title="Copy room code">
+                                        {copiedCode ? <Check size={11} /> : <Copy size={11} />}
+                                    </button>
+                                </div>
+                                <button className="copy-link-btn" onClick={copyLink}>
+                                    <span className="copy-link-inner">
+                                        {copied ? <Check size={14} /> : <Copy size={14} />}
+                                        {copied ? "Copied!" : "Copy Room Link"}
+                                    </span>
                                 </button>
                             </div>
-                            <button className="copy-link-btn" onClick={copyLink}>
-                                <span className="copy-link-inner">
-                                    {copied ? <Check size={14} /> : <Copy size={14} />}
-                                    {copied ? "Copied!" : "Copy Room Link"}
-                                </span>
-                            </button>
-                        </div>
-                        {connectionState !== "connected" && (
+                        )}
+                        {connectionState !== "failed" && (
                             <p className="share-hint">Send this link to a friend to connect</p>
                         )}
                     </div>
 
-                    <div className={`connection-status ${connectionState === "connected" ? "status-connected" : "status-disconnected"}`}>
+
+                    <div className={`connection-status ${connectionState === "connected" ? "status-connected" :
+                        connectionState === "failed" ? "status-failed" :
+                            "status-disconnected"
+                        }`}>
                         <div className="status-dot"></div>
-                        {connectionState === "connected" ? "Securely Connected" : "Waiting for peer..."}
+                        {connectionState === "connected" ? "Securely Connected" :
+                            connectionState === "failed" ? "Session Ended" :
+                                "Waiting for peer..."}
                     </div>
 
                     <div className="users-container">
@@ -82,20 +112,27 @@ function RoomPage() {
                             </div>
                         </div>
 
-                        <div className="user-row" style={{ opacity: peerName ? 1 : 0.5 }}>
-                            <div className="user-identity">
-                                <div className="user-avatar peer-avatar" style={!peerName ? { background: 'rgba(255,255,255,0.05)' } : undefined}>
-                                    {peerName ? peerName.charAt(0).toUpperCase() : '?'}
-                                </div>
-                                <div>
-                                    <div className="user-name">{peerName || 'Waiting...'}</div>
-                                    <div className="user-label">{peerName ? 'Connected Peer' : 'Share link to connect'}</div>
+                        {connectionState != "failed" && (
+                            <div className="user-row" style={{ opacity: peerName ? 1 : 0.5 }}>
+                                <div className="user-identity">
+                                    <div className="user-avatar peer-avatar" style={!peerName ? { background: 'rgba(255,255,255,0.05)' } : undefined}>
+                                        {peerName ? peerName.charAt(0).toUpperCase() : '?'}
+                                    </div>
+                                    <div>
+                                        <div className="user-name">{peerName || 'Waiting...'}</div>
+                                        <div className="user-label">{peerName ? 'Connected Peer' : 'Share link to connect'}</div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        )}
                     </div>
 
-                    {connectionState === "connected" ? (
+
+                    {connectionState === "failed" ? (
+                        <div className="transfer-status-text">
+                            Your peer has left. This session is over. Please create a new room to transfer files.
+                        </div>
+                    ) : connectionState === "connected" ? (
                         <FileTransfer channelRef={channelRef} onReceivedFilesChange={handleReceivedFilesChange} />
                     ) : (
                         <div className="transfer-status-text">
@@ -106,7 +143,7 @@ function RoomPage() {
                 </div>
 
                 {/* Right: Received files panel — only shown when connected */}
-                {connectionState === "connected" ? (
+                {(connectionState === "connected" || connectionState === "failed") ? (
                     <div className="received-files-panel">
                         <div className="received-files-panel-header">
                             <Inbox size={16} />

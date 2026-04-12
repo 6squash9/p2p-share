@@ -62,6 +62,9 @@ function useConnection(roomId) {
                     handlePeerJoined(); //IIFE , returns a promise, but we don't care about the return value
                 }
             }
+            if (msg.type === "error" && msg.error === "room_not_found") {
+                setConnectionState("room_not_found")
+            }
             //responder receives offer from initiator
             if (msg.type === "offer") {
                 const handleOffer = async () => {
@@ -87,6 +90,7 @@ function useConnection(roomId) {
             }
             if (msg.type === "peer_left") {
                 setConnectionState("failed")
+                setPeerName(null)
             }
         }
         //events browser fires automatically, not triggered by ws messages from the server

@@ -17,7 +17,11 @@ public class RoomService {
     private final Map<String, Room> rooms = new ConcurrentHashMap<>(); // thread safe
 
     public JoinResult joinRoom(String roomId, WebSocketSession session) {
-        Room room = rooms.computeIfAbsent(roomId, id -> new Room(id)); // atomic check-and-create to prevent race
+//        Room room = rooms.computeIfAbsent(roomId, id -> new Room(id)); // atomic check-and-create to prevent race
+        Room room = rooms.get(roomId);
+        if (room == null) {
+            return JoinResult.ROOM_NOT_FOUND;
+        }
         // conditions.
         synchronized (room) {
             int size = room.getAllSessions().size();
@@ -40,7 +44,7 @@ public class RoomService {
         // if any browser disconnects
         rooms.computeIfPresent(roomId, (id, room) -> {
             room.leaveRoom(session);
-            return room.getAllSessions().isEmpty() ? null : room;
+            return null;
         });
     }
 

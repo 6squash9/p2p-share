@@ -4,7 +4,7 @@
     font-family: 'Satoshi', sans-serif;
     color: #F9FAFB;
     min-height: 100vh;
-    width: 100vw;
+    width: 100%;
     position: relative;
     overflow-x: hidden;
     display: flex;
@@ -192,7 +192,15 @@
     color: #EF4444;
     border: 1px solid rgba(239, 68, 68, 0.2);
 }
-
+.status-failed {
+    border-color: rgba(239, 68, 68, 0.3);
+    background: rgba(239, 68, 68, 0.1);
+    color: #EF4444;
+}
+.status-failed .status-dot {
+    animation: none;
+    background: #EF4444;
+}
 @keyframes pulse {
     0% {
         transform: scale(1);
@@ -553,4 +561,22 @@
 @keyframes shareHintFadeIn {
     from { opacity: 0; transform: translateY(-4px); }
     to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Room Not Found Variations */
+.room-not-found-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+}
+
+.room-not-found-controls {
+    padding: 8px 14px;
+    border: none;
+    background-color: transparent;
+    box-shadow: none;
 }

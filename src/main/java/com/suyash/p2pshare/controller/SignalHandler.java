@@ -70,6 +70,10 @@ public class SignalHandler extends TextWebSocketHandler {
             } else if (result == JoinResult.ROOM_FULL) {
                 session.sendMessage(new TextMessage(mapper.writeValueAsString(Map.of("type", "error", "error", "room_full"))));
             }
+            else if (result == JoinResult.ROOM_NOT_FOUND) {
+                session.sendMessage(new TextMessage(mapper.writeValueAsString(Map.of("type", "error", "error", "room_not_found"))));
+                session.close();
+            }
         } else if (type.equals("leave")) {
             notifyPeer(roomId, session, new TextMessage(mapper.writeValueAsString(Map.of("type", "peer_left"))));//notify first
             roomService.disconnect(roomId, session);//then disconnect
