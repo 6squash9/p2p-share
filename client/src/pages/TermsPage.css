@@ -1,0 +1,82 @@
+.terms-wrapper {
+    background-color: #0a0a0a;
+    font-family: 'Satoshi', sans-serif;
+    color: #F9FAFB;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.terms-main {
+    flex: 1;
+    max-width: 780px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 160px 32px 100px;
+}
+
+/* Header */
+.terms-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 72px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding-bottom: 48px;
+}
+
+.terms-header h1 {
+    font-size: 72px;
+    font-weight: 500;
+    line-height: 1.1;
+    margin: 0;
+}
+
+.terms-subtitle {
+    font-size: 20px;
+    color: #888;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.terms-date {
+    font-size: 14px;
+    color: #555;
+    margin-top: 4px;
+}
+
+/* Sections */
+.terms-content {
+    display: flex;
+    flex-direction: column;
+    gap: 56px;
+}
+
+.terms-section h2 {
+    font-size: 22px;
+    font-weight: 600;
+    color: #fff;
+    margin: 0 0 12px 0;
+}
+
+.terms-section p {
+    font-size: 17px;
+    color: #888;
+    line-height: 1.8;
+    margin: 0;
+}
+
+@media screen and (max-width: 768px) {
+    .terms-main {
+        padding: 120px 24px 80px;
+    }
+
+    .terms-header h1 {
+        font-size: 48px;
+    }
+
+    .terms-subtitle {
+        font-size: 17px;
+    }
+}

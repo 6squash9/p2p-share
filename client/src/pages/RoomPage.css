@@ -599,3 +599,68 @@
     background-color: transparent;
     box-shadow: none;
 }
+
+/* Room Disclaimer */
+.room-disclaimer {
+    position: relative;
+    z-index: 10;
+    margin: 0 0 4px 0;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    padding: 10px 12px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    animation: disclaimerFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.room-disclaimer-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 12.5px;
+    line-height: 1.4;
+    color: rgba(255, 255, 255, 0.6);
+    flex: 1;
+}
+
+.room-disclaimer-content strong {
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 500;
+}
+
+.disclaimer-icon {
+    flex-shrink: 0;
+    color: #6214D9;
+}
+
+.disclaimer-close {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.4);
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s ease;
+    margin-left: 16px;
+    flex-shrink: 0;
+}
+
+.disclaimer-close:hover {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+@keyframes disclaimerFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

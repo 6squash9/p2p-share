@@ -1,0 +1,217 @@
+/* ── Layout ─────────────────────────────────── */
+.about-wrapper {
+    background-color: #0a0a0a;
+    font-family: 'Satoshi', sans-serif;
+    color: #F9FAFB;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.about-main {
+    flex: 1;
+    max-width: 1040px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 160px 32px 100px;
+    display: flex;
+    flex-direction: column;
+    gap: 80px;
+}
+
+/* ── Header ─────────────────────────────────── */
+.about-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding-bottom: 60px;
+}
+
+.about-header h1 {
+    font-size: 68px;
+    font-weight: 500;
+    line-height: 1.1;
+    margin: 0;
+    max-width: 720px;
+}
+
+.about-subtitle {
+    font-size: 20px;
+    color: #888;
+    line-height: 1.7;
+    margin: 0;
+    max-width: 580px;
+}
+
+/* ── Story ───────────────────────────────────── */
+.about-story {
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: 80px;
+    align-items: start;
+}
+
+.about-story-text {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    max-width: 560px;
+}
+
+.about-story-text p {
+    font-size: 17px;
+    color: #999;
+    line-height: 1.8;
+    margin: 0;
+}
+
+/* ── Stats ───────────────────────────────────── */
+.about-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    overflow: hidden;
+    position: sticky;
+    top: 100px;
+}
+
+.about-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 28px 28px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.about-stat:last-child {
+    border-bottom: none;
+}
+
+.stat-number {
+    font-size: 40px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+}
+
+.stat-label {
+    font-size: 13px;
+    color: #555;
+    line-height: 1.4;
+}
+
+/* ── CTA ─────────────────────────────────────── */
+.about-cta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    padding: 56px;
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.about-cta h2 {
+    font-size: 36px;
+    font-weight: 500;
+    margin: 0;
+}
+
+.about-cta p {
+    font-size: 17px;
+    color: #888;
+    margin: 0;
+}
+
+.about-cta-btn {
+    margin-top: 8px;
+    background: #fff;
+    color: #0a0a0a;
+    border: none;
+    border-radius: 100px;
+    font-family: 'Satoshi', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 14px 32px;
+    cursor: pointer;
+    transition: opacity 0.2s ease, transform 0.15s ease;
+}
+
+.about-cta-btn:hover {
+    opacity: 0.88;
+    transform: translateY(-1px);
+}
+
+.about-cta-btn:active {
+    transform: translateY(0);
+}
+
+/* ── Shared ──────────────────────────────────── */
+.serif-accent {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-weight: 400;
+}
+
+.section-badge {
+    background-color: rgba(13, 13, 13, 0.4);
+    border-radius: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    font-family: 'Satoshi', sans-serif;
+    font-size: 15px;
+    padding: 10px 20px;
+    width: fit-content;
+}
+
+/* ── Responsive ──────────────────────────────── */
+@media screen and (max-width: 768px) {
+    .about-main {
+        padding: 120px 24px 80px;
+        gap: 60px;
+    }
+
+    .about-header h1 {
+        font-size: 42px;
+    }
+
+    .about-subtitle {
+        font-size: 17px;
+    }
+
+    .about-story {
+        grid-template-columns: 1fr;
+        gap: 48px;
+    }
+
+    .about-stats {
+        position: static;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .about-stat {
+        flex: 1;
+        min-width: 120px;
+        border-bottom: none;
+        border-right: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .about-stat:last-child {
+        border-right: none;
+    }
+
+    .about-cta {
+        padding: 36px 28px;
+    }
+
+    .about-cta h2 {
+        font-size: 28px;
+    }
+}

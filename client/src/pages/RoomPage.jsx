@@ -3,7 +3,7 @@ import useConnection from "../connections/useConnection.js";
 import FileTransfer from "../components /FileTransfer.jsx";
 import Navbar from "../components /Navbar.jsx";
 import { useEffect, useState, useCallback } from "react";
-import { Copy, Check, Download, Inbox } from "lucide-react";
+import { Copy, Check, Download, Inbox, Info, X } from "lucide-react";
 import "./RoomPage.css";
 import "./HomePage.css";
 import Footer from "../components /Footer.jsx";
@@ -15,6 +15,7 @@ function RoomPage() {
     const [copied, setCopied] = useState(false);
     const [copiedCode, setCopiedCode] = useState(false);
     const [receivedFiles, setReceivedFiles] = useState([]);
+    const [showDisclaimer, setShowDisclaimer] = useState(true);
 
     const handleReceivedFilesChange = useCallback((files) => {
         setReceivedFiles(files);
@@ -168,6 +169,18 @@ function RoomPage() {
                             <span>Received Files</span>
                             {receivedFiles.length > 0 ? <span className="received-files-badge">{receivedFiles.length}</span> : null}
                         </div>
+
+                        {showDisclaimer && (
+                            <div className="room-disclaimer">
+                                <div className="room-disclaimer-content">
+                                    <Info size={14} className="disclaimer-icon" />
+                                    <span>Files received in this session will be lost if you don't download them.</span>
+                                </div>
+                                <button className="disclaimer-close" onClick={() => setShowDisclaimer(false)} title="Dismiss">
+                                    <X size={14} />
+                                </button>
+                            </div>
+                        )}
 
                         <div className="received-files-scroll">
                             {receivedFiles.length === 0 ? (

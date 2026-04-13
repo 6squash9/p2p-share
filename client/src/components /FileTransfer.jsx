@@ -1,14 +1,14 @@
-import {useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import useSender from "../connections/useSender.js";
 import useReceiver from "../connections/useReceiver.js";
 import { UploadCloud } from "lucide-react";
 
-function FileTransfer({channelRef, onReceivedFilesChange}) {
+function FileTransfer({ channelRef, onReceivedFilesChange }) {
     const [file, setFile] = useState(null);
     const [sendProgress, setSenderProgress] = useState(0); //0-100
 
-    const {sendFile} = useSender(channelRef, setSenderProgress);
-    const {progress, receivedFiles} = useReceiver(channelRef);
+    const { sendFile } = useSender(channelRef, setSenderProgress);
+    const { progress, receivedFiles } = useReceiver(channelRef);
 
     // Bubble up receivedFiles to parent (RoomPage) so it can render the side panel
     useEffect(() => {
@@ -26,9 +26,9 @@ function FileTransfer({channelRef, onReceivedFilesChange}) {
     return (
         <div className="transfer-section">
             <div className="file-input-wrapper">
-                <input 
-                    type="file" 
-                    className="file-input-actual" 
+                <input
+                    type="file"
+                    className="file-input-actual"
                     onChange={(e) => setFile(e.target.files[0])}
                 />
                 <div className="file-input-button">
@@ -38,10 +38,10 @@ function FileTransfer({channelRef, onReceivedFilesChange}) {
                     </span>
                 </div>
             </div>
-            
-            <button 
-                className="send-button" 
-                onClick={share} 
+
+            <button
+                className="send-button"
+                onClick={share}
                 disabled={!file || (sendProgress > 0 && sendProgress < 100)}
             >
                 {sendProgress > 0 && sendProgress < 100 ? `Sending... ${sendProgress}%` : "Send File"}
@@ -58,7 +58,7 @@ function FileTransfer({channelRef, onReceivedFilesChange}) {
                     </div>
                 </div>
             )}
-            
+
             {progress > 0 && progress < 100 && (
                 <div className="progress-container">
                     <div className="progress-label">

@@ -20,7 +20,7 @@ function Navbar({ lenisRef }) {
             <div className='nav-inner'>
                 <div onClick={() => { navigate("/") }} className='logo'>Peer<span>Send</span></div>
                 <div className='nav-links'>
-                    <a href="#">About</a>
+                    <a href="/about" onClick={(e) => { e.preventDefault(); navigate('/about') }}>About</a>
                     <a href="#">Blog</a>
                     <a href="#features" onClick={(e) => handleSectionNav(e, 'features')}>Features</a>
                     <a href="#how-it-works" onClick={(e) => handleSectionNav(e, 'how-it-works')}>How it works</a>
