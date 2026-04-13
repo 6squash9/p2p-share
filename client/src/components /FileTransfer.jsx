@@ -33,7 +33,9 @@ function FileTransfer({channelRef, onReceivedFilesChange}) {
                 />
                 <div className="file-input-button">
                     <UploadCloud size={20} />
-                    {file ? file.name : "Select a file to send..."}
+                    <span className="file-input-name" title={file ? file.name : "Select a file to send..."}>
+                        {file ? file.name : "Select a file to send..."}
+                    </span>
                 </div>
             </div>
             

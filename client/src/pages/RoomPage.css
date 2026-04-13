@@ -245,9 +245,10 @@
 .file-input-button {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     gap: 10px;
     width: 100%;
+    min-width: 0;
     padding: 18px;
     background: rgba(255, 255, 255, 0.02);
     border-radius: 12px;
@@ -256,6 +257,19 @@
     font-family: inherit;
     font-size: 15px;
     transition: all 0.2s ease;
+    overflow: hidden;
+}
+
+.file-input-button svg {
+    flex-shrink: 0;
+}
+
+.file-input-name {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .file-input-wrapper:hover .file-input-button {
