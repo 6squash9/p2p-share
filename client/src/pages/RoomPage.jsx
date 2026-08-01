@@ -61,8 +61,8 @@ function RoomPage() {
             </div>
         )
     }
-    if(connectionState === "room_full"){
-        return(
+    if (connectionState === "room_full") {
+        return (
             <div className="room-wrapper">
                 <Navbar />
                 <div className="home-bg" />
