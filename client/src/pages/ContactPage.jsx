@@ -17,14 +17,37 @@ function ContactPage() {
         setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }))
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
         setLoading(true)
-        // Simulate async submission
-        setTimeout(() => {
-            setLoading(false)
+
+        const googleFormUrl = 'https://docs.google.com/forms/d/e/1FAIpQLScZx5G52k26Q5fBUrp0BNDjulcly8rIeGDCVAZQjJqEwxYO0A/formResponse'
+
+        const formBody = new URLSearchParams({
+            'entry.932878115': formData.name,
+            'entry.321145325': formData.email,
+            'entry.1898697900': formData.subject,
+            'entry.391965054': formData.message,
+            'emailAddress': formData.email,
+            'fvv': '1',
+            'pageHistory': '0',
+        })
+
+        try {
+            await fetch(googleFormUrl, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: formBody.toString(),
+            })
+            // no-cors means we can't read the response, but the submission goes through
             setSubmitted(true)
-        }, 1200)
+        } catch (err) {
+            console.error('Contact form submission failed:', err)
+            alert('Something went wrong. Please try again.')
+        } finally {
+            setLoading(false)
+        }
     }
 
     return (
