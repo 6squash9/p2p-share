@@ -10,6 +10,7 @@ function Footer() {
                     <div className='logo'>Peer<span>Send</span></div>
                     <div className='footer-links'>
                         <a href="/about" onClick={() => navigate('/about')}>About</a>
+                        <a href="/blog" onClick={() => navigate('/blog')}>Blog</a>
                         <a href="/privacy" onClick={() => navigate('/privacy')}>Privacy</a>
                         <a href="/terms" onClick={() => navigate('/terms')}>Terms</a>
                         <a href="/contact" onClick={() => navigate('/contact')}>Contact</a>
