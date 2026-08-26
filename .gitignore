@@ -42,3 +42,4 @@ skills-lock.json
 
 client/.env
 .env.*
+blog/
