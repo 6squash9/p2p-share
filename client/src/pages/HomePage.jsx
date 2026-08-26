@@ -6,11 +6,26 @@ import "./HomePage.css";
 
 function HomePage() {
     const [inputRoomId, setInputRoomId] = useState("");
+    const [error, setError] = useState("");
+    const [creating, setCreating] = useState(false);
     const navigate = useNavigate();
 
     const createRoom = async () => {
-        const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/rooms`);
-        navigate(`/room/${response.data.roomId}`);
+        setError("");
+        setCreating(true);
+        try {
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/rooms`);
+            navigate(`/room/${response.data.roomId}`);
+        } catch (err) {
+            // the server returns 429 once it is at its room ceiling. without this
+            // the button just silently did nothing on any failure.
+            setError(
+                err.response?.status === 429
+                    ? "We're at capacity right now. Please try again in a minute."
+                    : "Couldn't reach the server. Check your connection and try again."
+            );
+            setCreating(false);
+        }
     }
 
     const joinRoom = () => {
@@ -27,7 +42,9 @@ function HomePage() {
                 <p className="home-subtitle">No signup. No storage. Direct browser-to-browser transfer.</p>
 
                 <div className="room-controls">
-                    <button className="primary-btn" onClick={createRoom}>Create a New Room</button>
+                    <button className="primary-btn" onClick={createRoom} disabled={creating}>
+                        {creating ? "Creating..." : "Create a New Room"}
+                    </button>
 
                     <div className="divider">or</div>
 
@@ -46,6 +63,8 @@ function HomePage() {
                         </button>
                     </div>
                 </div>
+
+                {error && <p className="home-error">{error}</p>}
             </div>
         </div>
     );
