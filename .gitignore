@@ -43,3 +43,6 @@ skills-lock.json
 client/.env
 .env.*
 blog/
+
+# local dev counter file (see peersend.stats.file)
+/data/
