@@ -1,12 +1,22 @@
 import './LandingPage.css'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import axios from 'axios'
 import Lenis from 'lenis'
 import { Lock, Zap, UserX, FileCheck, Heart, Infinity } from 'lucide-react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import Navbar from '../components /Navbar'
 import Footer from '../components /Footer'
 
+const BASE_CONNECTIONS = 500;
+
 function LandingPage() {
+    const [connections, setConnections] = useState(() => {
+        const saved = localStorage.getItem('peersend_connections');
+        return saved ? Math.max(Number(saved), BASE_CONNECTIONS) : BASE_CONNECTIONS;
+    });
+    const [displayCount, setDisplayCount] = useState(1);
+    const [hasAnimated, setHasAnimated] = useState(false);
+    const statBannerRef = useRef(null);
     const videoTextRef = useRef(null)
     const videoWrapperRef = useRef(null)
     const heroRef = useRef(null)
@@ -14,6 +24,69 @@ function LandingPage() {
     const lenisRef = useRef(null)
     const navigate = useNavigate();
     const location = useLocation();
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    setHasAnimated(true);
+                }
+            },
+            { threshold: 0.2 }
+        );
+
+        if (statBannerRef.current) {
+            observer.observe(statBannerRef.current);
+        }
+
+        return () => observer.disconnect();
+    }, []);
+
+    useEffect(() => {
+        if (!hasAnimated) return;
+
+        let startTimestamp = null;
+        let animationFrameId;
+        const startVal = displayCount;
+        const targetVal = connections;
+        const duration = 2400; // smooth, satisfying 2.4s roll-up
+
+        const easeOutExpo = (t) => (t === 1 ? 1 : 1 - Math.pow(2, -10 * t));
+
+        const step = (timestamp) => {
+            if (!startTimestamp) startTimestamp = timestamp;
+            const elapsed = timestamp - startTimestamp;
+            const progress = Math.min(elapsed / duration, 1);
+            const eased = easeOutExpo(progress);
+            const current = Math.round(startVal + (targetVal - startVal) * eased);
+
+            setDisplayCount(current);
+
+            if (progress < 1) {
+                animationFrameId = requestAnimationFrame(step);
+            } else {
+                setDisplayCount(targetVal);
+            }
+        };
+
+        animationFrameId = requestAnimationFrame(step);
+
+        return () => cancelAnimationFrame(animationFrameId);
+    }, [hasAnimated, connections]);
+
+    useEffect(() => {
+        axios.get(`${import.meta.env.VITE_BACKEND_URL}/stats`, { timeout: 15000 })
+            .then((res) => {
+                if (res.status === 200 && typeof res.data?.connections === 'number') {
+                    const total = BASE_CONNECTIONS + res.data.connections;
+                    setConnections(total);
+                    localStorage.setItem('peersend_connections', total.toString());
+                }
+            })
+            .catch(() => {
+                // silent fallback — retains baseline connections (at least 500)
+            });
+    }, []);
 
     useEffect(() => {
         // setting up lenis
@@ -106,6 +179,13 @@ function LandingPage() {
 
                 </div>
             </section>
+
+            <section className='connections-stat-banner' ref={statBannerRef}>
+                <h2>
+                    {displayCount.toLocaleString()}+ connections made <span className='serif-accent'>so far</span>
+                </h2>
+            </section>
+
             {/* How it works */}
 
             <section id='how-it-works' className='process'>
