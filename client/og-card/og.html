@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@500,600,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; padding: 0; background: #030303; }
+  /* 1200x630 canvas centred in a 1200x700 window; cropped to 630 after render */
+  body { width: 1200px; height: 700px; display: flex; align-items: center; justify-content: center; }
+  .card {
+    position: relative; width: 1200px; height: 630px; overflow: hidden;
+    background: #030303; color: #F9FAFB;
+    font-family: 'Satoshi', -apple-system, 'Helvetica Neue', sans-serif;
+  }
+  /* same glow as .home-bg on the room page */
+  .bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(circle at 50% -20%, #6214D9 0%, transparent 65%),
+      radial-gradient(circle at 50% 0%, rgba(98, 20, 217, 0.15) 0%, transparent 80%);
+    filter: blur(80px);
+  }
+  .top {
+    position: absolute; left: 56px; right: 56px; top: 44px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .wordmark { font-family: 'Instrument Serif', serif; font-size: 30px; letter-spacing: -0.01em; }
+  .wordmark span { color: rgba(252,252,250,0.5); }
+  .url { font-size: 20px; font-weight: 500; color: rgba(252,252,250,0.5); }
+  .content {
+    position: absolute; inset: 0; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; text-align: center; padding-top: 24px;
+  }
+  /* same treatment as .home-content h2 */
+  h1 {
+    margin: 0; font-size: 62px; font-weight: 600; letter-spacing: -0.05em; line-height: 1;
+    background: linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0.7) 100%);
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    white-space: nowrap;
+    /* background-clip:text only paints inside the box; pad it so descenders (the g) keep their fill */
+    padding: 0.18em 0.06em; margin: -0.18em 0;
+  }
+  h1 .accent { font-style: italic; font-family: 'Instrument Serif', serif; font-weight: 400; letter-spacing: -0.03em; padding-right: 0.15em; }
+  p { margin: 28px 0 0; font-size: 26px; font-weight: 500; color: rgb(153,153,153); }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="bg"></div>
+  <div class="top">
+    <div class="wordmark">Peer<span>Send</span></div>
+    <div class="url">peersend.app</div>
+  </div>
+  <div class="content">
+    <h1>Your file. Their browser. <span class="accent">Nothing in between.</span></h1>
+    <p>No signup. No storage. Direct browser-to-browser transfer.</p>
+  </div>
+</div>
+</body>
+</html>
