@@ -33,6 +33,12 @@ public class RoomService {
         return (long) (ttlMinutes * 60_000);
     }
 
+    private final ConnectionCounter connectionCounter;
+
+    public RoomService(ConnectionCounter connectionCounter) {
+        this.connectionCounter = connectionCounter;
+    }
+
     public JoinResult joinRoom(String roomId, WebSocketSession session) {
         Room room = rooms.get(roomId);
         if (room == null) {
@@ -58,6 +64,12 @@ public class RoomService {
             } else {
                 room.joinRoom(session);
                 room.touch();
+                // a second peer arriving is what we count as a "connection made".
+                // once per room: a responder can leave and another can join the
+                // same room, and that must not count twice.
+                if (room.markConnected()) {
+                    connectionCounter.increment();
+                }
                 log.debug("Room {} joined as responder", roomId);
                 return JoinResult.SUCCESS_RESPONDER;
             }

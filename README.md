@@ -23,6 +23,7 @@ PeerSend takes a different approach: two browsers establish a direct WebRTC conn
 - Automatic download on completion, plus a re-download panel for the current session
 - Anonymous, auto-generated peer display names (e.g. "Cosmic Tardigrade")
 - No database, no server-side file storage, all room/session state lives in memory and is cleared on disconnect or after a 30-minute inactivity TTL
+- The server persists exactly one thing: an all-time count of connections made (rooms where a second peer joined). A single integer in a file, exposed at `GET /stats`
 
 ## Architecture
 

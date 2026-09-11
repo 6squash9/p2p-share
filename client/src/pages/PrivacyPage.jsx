@@ -10,7 +10,7 @@ const sections = [
     },
     {
         title: "What Data We Collect",
-        content: `Almost nothing. We do not require you to create an account, log in, or provide any personal information to use PeerSend. We may collect basic, anonymous usage metrics (e.g. page visits) through our hosting provider, but these are not tied to any individual.`
+        content: `Almost nothing. We do not require you to create an account, log in, or provide any personal information to use PeerSend. We may collect basic, anonymous usage metrics (e.g. page visits) through our hosting provider, but these are not tied to any individual. The one number our own server does keep is an all-time count of connections made, that is, how many times a second person has joined a room. It is a single integer with nothing attached to it: no IP addresses, no timestamps, no room IDs, and it is the only thing the server stores between restarts.`
     },
     {
         title: "How File Transfer Works",

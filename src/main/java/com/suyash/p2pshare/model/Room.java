@@ -16,6 +16,10 @@ public class Room {
     // delays eviction by one sweep cycle, and it can never evict a live room
     // because the sweeper also requires the room to be empty.
     private volatile long lastActivityAt;
+    // flipped the first time a second peer joins, never reset. the room outlives a
+    // responder who leaves (see RoomService.disconnect), so without this a rejoin
+    // would be counted as a brand-new connection.
+    private boolean connected = false;
 
     public Room(String roomId) {
         this.roomId = roomId;
@@ -42,6 +46,16 @@ public class Room {
     // called whenever a real peer does something, so an active room never expires
     public void touch() {
         lastActivityAt = System.currentTimeMillis();
+    }
+
+    // returns true only on the first call. only ever called under synchronized (room),
+    // which is why a plain boolean is enough here.
+    public boolean markConnected() {
+        if (connected) {
+            return false;
+        }
+        connected = true;
+        return true;
     }
 
     public boolean isIdleFor(long millis) {
