@@ -161,6 +161,38 @@
     color: rgba(252, 252, 250, 0.5);
 }
 
+.connections-stat-banner {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 80px 24px 100px 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.connections-stat-banner h2 {
+    font-size: 54px;
+    font-weight: 500;
+    letter-spacing: -0.04em;
+    line-height: 1.2;
+    margin: 0;
+    color: #F9FAFB;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+}
+
+.connections-stat-banner h2 .serif-accent {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 64px;
+    letter-spacing: -0.01em;
+    color: rgba(252, 252, 250, 0.55);
+    padding-left: 0.12em;
+}
+
 
 
 .process {
@@ -412,6 +444,16 @@
     .hero-text p {
         font-size: 18px;
         padding: 0 10px;
+    }
+    .connections-stat-banner {
+        padding: 40px 16px 50px 16px;
+    }
+    .connections-stat-banner h2 {
+        font-size: 32px;
+        line-height: 1.25;
+    }
+    .connections-stat-banner h2 .serif-accent {
+        font-size: 38px;
     }
     .hero-buttons {
         flex-direction: column;
