@@ -29,6 +29,9 @@ function AboutPage() {
                     <p>
                         We built PeerSend because privacy shouldn't require trust. It should be guaranteed by the architecture itself.
                     </p>
+                    <p className='about-byline'>
+                        PeerSend is designed, built and maintained by <a className='about-author' href='https://suyaxh.vercel.app/' target='_blank' rel='noopener noreferrer'>Suyash Mandaokar</a>.
+                    </p>
                 </div>
 
                 <div className='about-cta'>

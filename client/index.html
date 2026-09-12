@@ -3,8 +3,11 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link rel="icon"
-          href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230a0a0a'/><text y='72' x='50' font-size='52' font-family='sans-serif' font-weight='bold' text-anchor='middle'><tspan fill='white'>P</tspan><tspan fill='rgba(252,252,250,0.5)'>S</tspan></text></svg>">
+    <!-- real icon files: Google ignores data: URIs, and wants >=48px at a stable URL -->
+    <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48"/>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+    <meta name="theme-color" content="#030303"/>
     <title>PeerSend — Your file. Their browser. Nothing in between.</title>
     <meta name="description" content="Send files privately. No signup. No storage. Direct browser-to-browser transfer."/>
 
@@ -24,6 +27,20 @@
     <meta name="twitter:description" content="No signup. No storage. Direct browser-to-browser transfer."/>
     <meta name="twitter:image" content="https://peersend.app/og.png"/>
     <link rel="canonical" href="https://peersend.app/"/>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "PeerSend",
+      "url": "https://peersend.app/",
+      "description": "Send files directly from your browser to theirs over an encrypted peer-to-peer connection. No signup, no server storage, no file size cap.",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Any",
+      "browserRequirements": "Requires a modern browser with WebRTC support",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "author": { "@type": "Person", "name": "Suyash Mandaokar", "url": "https://suyaxh.vercel.app/", "sameAs": ["https://suyaxh.vercel.app/"] }
+    }
+    </script>
 
 </head>
 <body>

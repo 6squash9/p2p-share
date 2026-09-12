@@ -67,6 +67,26 @@
     margin: 0;
 }
 
+/* byline sits under the story, quieter than the paragraphs, name in the site's white */
+.about-story-text .about-byline {
+    font-size: 15px;
+    color: #777;
+    padding-top: 8px;
+    border-top: 1px solid rgba(252, 252, 250, 0.08);
+}
+
+.about-author {
+    color: #F9FAFB;
+    font-weight: 500;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(252, 252, 250, 0.3);
+    transition: border-color 0.2s ease;
+}
+
+.about-author:hover {
+    border-bottom-color: #F9FAFB;
+}
+
 /* ── Stats ───────────────────────────────────── */
 .about-stats {
     display: flex;
